@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import Head from "next/head";
 import { NextPage } from "next";
 import IUser from "../../model/interface/IUser";
 import IUserDataGrid from "../../model/interface/IUserDataGrid";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRowsProp,
+  MuiEvent,
+} from "@mui/x-data-grid";
+import { ClickType } from "../../util/constant";
+import { routePageByUuid } from "../../hooks/routerHook";
+import { useRouter } from "next/router";
 
 // @ts-ignore
 const User: NextPage = ({ data }) => {
+  const router = useRouter();
   const [initData, setInitData] = useState<IUser[]>(data);
   const [userInformation, setUserInformation] = useState<Array<IUserDataGrid>>(
     [],
@@ -27,7 +37,7 @@ const User: NextPage = ({ data }) => {
 
   const dataRow: GridRowsProp = [...userInformation];
 
-  useEffect(() => {
+  const initUserInformation = useCallback(() => {
     let newUserInformationArray: Array<IUserDataGrid> = [];
     initData.map((user, key) => {
       let userInfo: IUserDataGrid = {
@@ -51,6 +61,19 @@ const User: NextPage = ({ data }) => {
     setUserInformation([...newUserInformationArray]);
   }, [initData]);
 
+  const onCellClick = (
+    params: GridCellParams<any>,
+    event: MuiEvent<React.MouseEvent>,
+  ) => {
+    if (event.detail == ClickType.DOUBLE) {
+      routePageByUuid("user", params.row.uuid, router);
+    }
+  };
+
+  useEffect(() => {
+    initUserInformation();
+  }, []);
+
   // 기본 회원 정보, 감사 메세지 수 , 좋/댓/공, 수혈완료, 포인트
   return (
     <>
@@ -60,7 +83,12 @@ const User: NextPage = ({ data }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalNavigationBar />
-      <DataGrid columns={dataColumn} rows={dataRow} autoHeight={true} />
+      <DataGrid
+        columns={dataColumn}
+        rows={dataRow}
+        autoHeight={true}
+        onCellClick={onCellClick}
+      />
     </>
   );
 };

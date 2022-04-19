@@ -13,16 +13,16 @@ const User: NextPage = ({ data }) => {
     [],
   );
   const dataColumn: GridColDef[] = [
-    { field: "displayName", headerName: "닉네임" },
-    { field: "email", headerName: "이메일" },
-    { field: "phoneNumber", headerName: "전화번호" },
+    { field: "displayName", headerName: "닉네임", width: 200 },
+    { field: "email", headerName: "이메일", width: 200 },
+    { field: "phoneNumber", headerName: "전화번호", width: 120 },
     { field: "birthDay", headerName: "생년월일" },
     // { field: "bloodType", headerName: "혈액형" },
     { field: "gender", headerName: "성별" },
     { field: "marketingUserAgreement", headerName: "마케팅활용동의" },
     { field: "status", headerName: "상태" },
     { field: "createdAt", headerName: "가입날짜" },
-    { field: "uuid", headerName: "사용자 식별자" },
+    { field: "uuid", headerName: "사용자 식별자", width: 300 },
   ];
 
   const dataRow: GridRowsProp = [...userInformation];
@@ -38,7 +38,7 @@ const User: NextPage = ({ data }) => {
         //   abo: user.bloodType.abo,
         //   rh: user.bloodType.rh,
         // },
-        createdAt: user.createdAt,
+        createdAt: user.createdAt.slice(0, 10),
         email: user.email,
         gender: user.gender,
         marketingUserAgreement: user.marketingUserAgreement,
@@ -60,7 +60,6 @@ const User: NextPage = ({ data }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalNavigationBar />
-      {console.log(dataRow)}
       <DataGrid columns={dataColumn} rows={dataRow} autoHeight={true} />
     </>
   );

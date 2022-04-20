@@ -7,3 +7,7 @@ export const routePageByUuid = (
 ) => {
   router.push(`${currentUrl}/${uuid}`);
 };
+
+export const getRouterQuery = (router: NextRouter, queryKeyValue: string) => {
+  return router.query[queryKeyValue];
+};

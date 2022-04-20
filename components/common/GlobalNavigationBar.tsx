@@ -27,7 +27,7 @@ const GlobalNavigationBar: React.FunctionComponent = () => {
     return (event) => {
       event.preventDefault();
       let url = target.toLowerCase();
-      router.push(url);
+      router.push("/" + url);
     };
   };
 

@@ -6,11 +6,16 @@ import { getRouterQuery } from "../../hooks/routerHook";
 import IUser from "../../model/interface/IUser";
 import { fetchDataOnBrowser } from "../../api/basicFetch";
 import { PrintErrorMessage } from "../../util/Error";
+import styles from "../../styles/AccountDetail.module.scss";
+import DetailTextField from "../../components/common/DetailTextField";
+import { useAppSelect } from "../../hooks/reduxHooks";
 
 const AccountUuid: NextPage = () => {
   const router = useRouter();
   const [userData, setUserData] = useState<IUser>();
   const accountUuid = getRouterQuery(router, "accountUuid");
+  const displayName = useAppSelect((state) => state.detailUser.displayName);
+  const birthDay = useAppSelect((state) => state.detailUser.birthDay);
   useEffect(() => {
     if (accountUuid && !userData) {
       fetchDataOnBrowser(`/api/v1/account/${accountUuid}`, setUserData).catch(
@@ -22,10 +27,34 @@ const AccountUuid: NextPage = () => {
   }, [accountUuid, userData]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <GlobalNavigationBar />
-      <h1>유저 상세 정보 및 정보 수정 / 삭제</h1>
-      <button onClick={() => console.log(userData)}>dd</button>
+      {userData ? (
+        <div className={styles.box}>
+          <h2>유저 상세 정보 조회 및 수정 / 삭제</h2>
+
+          <DetailTextField
+            defaultValue={userData.birthDay}
+            label={"생년월일"}
+            state={birthDay}
+          />
+
+          <DetailTextField
+            defaultValue={userData.displayName}
+            label={"닉네임"}
+            state={displayName}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+      <button
+        onClick={() => {
+          console.log(displayName + " ? " + birthDay);
+        }}
+      >
+        출력
+      </button>
     </div>
   );
 };

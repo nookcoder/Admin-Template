@@ -5,6 +5,5 @@ export function fetchDataOnBrowser(url: string, setData: React.Dispatch<any>) {
     res.json().then((value) => {
       setData(value);
     });
-    console.log("setting Done!");
   });
 }

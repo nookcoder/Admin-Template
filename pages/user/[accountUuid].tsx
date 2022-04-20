@@ -4,12 +4,13 @@ import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import { useRouter } from "next/router";
 import { getRouterQuery } from "../../hooks/routerHook";
 import IUser from "../../model/interface/IUser";
-import { fetchDataOnBrowser } from "../../api/basicFetch";
+import { fetchData } from "../../api/basicFetch";
 import { PrintErrorMessage } from "../../util/Error";
 import styles from "../../styles/AccountDetail.module.scss";
 import DetailTextField from "../../components/common/DetailTextField";
 import { useAppSelect } from "../../hooks/reduxHooks";
 import { CircularProgress } from "@mui/material";
+import Head from "next/head";
 
 const AccountUuid: NextPage = () => {
   const router = useRouter();
@@ -20,7 +21,7 @@ const AccountUuid: NextPage = () => {
 
   useEffect(() => {
     if (accountUuid && !userData) {
-      fetchDataOnBrowser(`/api/v1/account/${accountUuid}`, setUserData).catch(
+      fetchData(`/api/v1/account/${accountUuid}`, setUserData).catch(
         (error) => {
           PrintErrorMessage(error);
         },
@@ -30,6 +31,9 @@ const AccountUuid: NextPage = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>Pple | 유저 상세정보</title>
+      </Head>
       <GlobalNavigationBar />
       {userData ? (
         <div className={styles.box}>

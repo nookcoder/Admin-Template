@@ -21,13 +21,18 @@ const AccountUuid: NextPage = () => {
 
   useEffect(() => {
     if (accountUuid && !userData) {
+      if (accountUuid.length < 36) {
+        router.push("/user");
+        return;
+      }
+
       fetchData(`/api/v1/account/${accountUuid}`, setUserData).catch(
         (error) => {
           PrintErrorMessage(error);
         },
       );
     }
-  }, [accountUuid, userData]);
+  }, [accountUuid, userData, router]);
 
   return (
     <div className={styles.container}>

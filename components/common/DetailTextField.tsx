@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import styles from "../styles/DetailTextField.module.scss";
 import { TextField } from "@mui/material";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch } from "../../hooks/ReduxHooks";
 import {
   setBirthDay,
   setDisplayName,

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import { useRouter } from "next/router";
-import { getRouterQuery } from "../../hooks/routerHook";
+import { getRouterQuery } from "../../hooks/RouterHook";
 import IUser from "../../model/interface/IUser";
 import { fetchData } from "../../api/basicFetch";
 import { PrintErrorMessage } from "../../util/Error";
 import styles from "../../styles/AccountDetail.module.scss";
 import DetailTextField from "../../components/common/DetailTextField";
-import { useAppSelect } from "../../hooks/reduxHooks";
+import { useAppSelect } from "../../hooks/ReduxHooks";
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
 
@@ -55,17 +55,17 @@ const AccountUuid: NextPage = () => {
             label={"닉네임"}
             state={displayName}
           />
+          <button
+            onClick={() => {
+              console.log(displayName + " ? " + birthDay);
+            }}
+          >
+            출력
+          </button>
         </div>
       ) : (
         <CircularProgress></CircularProgress>
       )}
-      <button
-        onClick={() => {
-          console.log(displayName + " ? " + birthDay);
-        }}
-      >
-        출력
-      </button>
     </div>
   );
 };

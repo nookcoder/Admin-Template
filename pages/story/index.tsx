@@ -6,7 +6,7 @@ import { GridColumn } from "../../util/constant";
 import { fetchWithBaseURL } from "../../api/basicFetch";
 import { IDonation, IDonationContent } from "../../model/interface/IDonation";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { setGridPropsRow } from "../../hooks/gridPropsRowHook";
+import { setGridPropsRow } from "../../hooks/GridPropsRowHook";
 import { CircularProgress } from "@mui/material";
 
 const Story: NextPage<IDonation> = ({ data }) => {

@@ -11,11 +11,11 @@ import {
   MuiEvent,
 } from "@mui/x-data-grid";
 import { ClickType, GridColumn } from "../../util/constant";
-import { routePageByUuid } from "../../hooks/routerHook";
+import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
 import { fetchWithBaseURL } from "../../api/basicFetch";
-import { setGridPropsRow } from "../../hooks/gridPropsRowHook";
+import { setGridPropsRow } from "../../hooks/GridPropsRowHook";
 
 // @ts-ignore
 const User: NextPage<IUser[]> = ({ data }) => {

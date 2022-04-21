@@ -1,4 +1,6 @@
 import React, { MouseEventHandler, ReactNode, useState } from "react";
+import styles from "../styles/GlobalNavigationBar.module.scss";
+
 import {
   AppBar,
   Box,
@@ -10,7 +12,6 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import styles from "../styles/GlobalNavigationBar.module.scss";
 import PersonIcon from "@mui/icons-material/Person";
 import ArticleIcon from "@mui/icons-material/Article";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -59,7 +60,7 @@ const GlobalNavigationBar: React.FunctionComponent = () => {
 
   return (
     <div>
-      <AppBar position="static" className={styles.app_bar}>
+      <AppBar position="static" sx={{ bgcolor: "#FF6969" }}>
         <Toolbar>
           <IconButton
             size="large"

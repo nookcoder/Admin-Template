@@ -16,4 +16,14 @@ export const GridColumn = {
     { field: "createdAt", headerName: "가입날짜" },
     { field: "uuid", headerName: "사용자 식별자", width: 300 },
   ],
+
+  Story: [
+    { field: "title", headerName: "제목" },
+    { field: "viewsCount", headerName: "조회수" },
+    { field: "replyCount", headerName: "댓글 수" },
+    { field: "likesCount", headerName: "좋아요 수" },
+    { field: "renewCount", headerName: "연장한 횟수" },
+    { field: "createdAt", headerName: "등록 일자", width: 110 },
+    { field: "uuid", headerName: "사연 식별자", width: 300 },
+  ],
 };

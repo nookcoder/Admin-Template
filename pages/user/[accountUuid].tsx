@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import { useRouter } from "next/router";
 import { getRouterQuery } from "../../hooks/RouterHook";
-import IUser from "../../model/interface/IUser";
+import IUser from "../../model/interface/user/IUser";
 import { fetchData } from "../../api/basicFetch";
 import { PrintErrorMessage } from "../../util/Error";
 import styles from "../../styles/AccountDetail.module.scss";
@@ -39,7 +38,6 @@ const AccountUuid: NextPage = () => {
       <Head>
         <title>Pple | 유저 상세정보</title>
       </Head>
-      <GlobalNavigationBar />
       {userData ? (
         <div className={styles.box}>
           <h2>유저 상세 정보 조회 및 수정 / 삭제</h2>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import Head from "next/head";
 import { NextPage } from "next";
-import IUser from "../../model/interface/IUser";
+import IUser from "../../model/interface/user/IUser";
 import {
   DataGrid,
   GridCellParams,
@@ -46,7 +45,6 @@ const User: NextPage<IUser[]> = ({ data }) => {
         <meta name="description" content="피플 Admin 유저정보" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GlobalNavigationBar />
       {userData ? (
         <DataGrid
           columns={dataColumn}

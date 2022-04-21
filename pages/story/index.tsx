@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
-import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import Head from "next/head";
 import { ClickType, GridColumn } from "../../util/constant";
 import { fetchWithBaseURL } from "../../api/basicFetch";
-import { IDonation, IDonationContent } from "../../model/interface/IDonation";
+import {
+  IDonation,
+  IDonationContent,
+} from "../../model/interface/story/IDonation";
 import {
   DataGrid,
   GridCellParams,
@@ -41,7 +43,6 @@ const Story: NextPage<IDonation> = ({ data }) => {
         <meta name="description" content="피플 Admin 사연 정보" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GlobalNavigationBar />
       {content ? (
         <DataGrid
           onCellClick={onCellClick}

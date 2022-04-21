@@ -1,5 +1,5 @@
 import React from "react";
-import IUser from "../model/interface/IUser";
+import IUser from "../model/interface/user/IUser";
 
 export function fetchWithBaseURL(url: string) {
   return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${url}`);

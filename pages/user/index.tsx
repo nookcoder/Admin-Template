@@ -14,17 +14,16 @@ import { ClickType, GridColumn } from "../../util/constant";
 import { routePageByUuid } from "../../hooks/routerHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
-import { fetchInitUserData } from "../../api/basicFetch";
-import { PrintErrorMessage } from "../../util/Error";
+import { fetchWithBaseURL } from "../../api/basicFetch";
+import { setGridPropsRow } from "../../hooks/gridPropsRowHook";
 
 // @ts-ignore
-const User: NextPage = () => {
+const User: NextPage<IUser[]> = ({ data }) => {
   const router = useRouter();
-  const [initData, setInitData] = useState<IUser[]>();
+  const [userData, setUserData] = useState<Array<IUser[]>>();
 
   const dataColumn: GridColDef[] = GridColumn.User;
-
-  const dataRow: GridRowsProp = initData ? [...initData] : [];
+  const dataRow: GridRowsProp = userData ? userData : [];
 
   const onCellClick = (
     params: GridCellParams<any>,
@@ -36,13 +35,8 @@ const User: NextPage = () => {
   };
 
   useEffect(() => {
-    if (!initData) {
-      fetchInitUserData("/api/v1/account/all", setInitData).catch((err) => {
-        PrintErrorMessage(err);
-      });
-      return;
-    }
-  }, [initData]);
+    setGridPropsRow(data, setUserData);
+  }, [data]);
 
   // 기본 회원 정보, 감사 메세지 수 , 좋/댓/공, 수혈완료, 포인트
   return (
@@ -53,7 +47,7 @@ const User: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalNavigationBar />
-      {initData ? (
+      {userData ? (
         <DataGrid
           columns={dataColumn}
           rows={dataRow}
@@ -66,5 +60,13 @@ const User: NextPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  const res = await fetchWithBaseURL("/api/v1/account/all");
+  const data = await res.json();
+  return {
+    props: { data },
+  };
+}
 
 export default User;

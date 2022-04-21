@@ -2,18 +2,34 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import GlobalNavigationBar from "../../components/common/GlobalNavigationBar";
 import Head from "next/head";
-import { GridColumn } from "../../util/constant";
+import { ClickType, GridColumn } from "../../util/constant";
 import { fetchWithBaseURL } from "../../api/basicFetch";
 import { IDonation, IDonationContent } from "../../model/interface/IDonation";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { setGridPropsRow } from "../../hooks/GridPropsRowHook";
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRowsProp,
+  MuiEvent,
+} from "@mui/x-data-grid";
+import { setGridPropsRow } from "../../hooks/GridHook";
 import { CircularProgress } from "@mui/material";
+import { routePageByUuid } from "../../hooks/RouterHook";
+import { useRouter } from "next/router";
 
 const Story: NextPage<IDonation> = ({ data }) => {
+  const router = useRouter();
   const [content, setContent] = useState<Array<IDonationContent>>();
   const dataColum: GridColDef[] = GridColumn.Story;
   const dataRow: GridRowsProp = content ? content : [];
-
+  const onCellClick = (
+    params: GridCellParams<any>,
+    event: MuiEvent<React.MouseEvent>,
+  ) => {
+    if (event.detail == ClickType.DOUBLE) {
+      routePageByUuid("story", params.row.uuid, router);
+    }
+  };
   useEffect(() => {
     setGridPropsRow(data.content, setContent);
   }, [data]);
@@ -27,7 +43,12 @@ const Story: NextPage<IDonation> = ({ data }) => {
       </Head>
       <GlobalNavigationBar />
       {content ? (
-        <DataGrid columns={dataColum} rows={dataRow} autoHeight={true} />
+        <DataGrid
+          onCellClick={onCellClick}
+          columns={dataColum}
+          rows={dataRow}
+          autoHeight={true}
+        />
       ) : (
         <CircularProgress />
       )}

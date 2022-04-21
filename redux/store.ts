@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { detailUserSlice } from "./feature/detailUser/detailUserSlice";
+import userSlice from "./feature/detail/userSlice";
+import donationSlice from "./feature/detail/donationSlice";
 
 export const store = configureStore({
   reducer: {
-    detailUser: detailUserSlice.reducer,
+    detailUser: userSlice,
+    detailDonation: donationSlice,
   },
 });
 

@@ -1,16 +1,16 @@
 // Define type for the slice state
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface DetailUserState {
+interface UserState {
   displayName: string;
   birthDay: string;
 }
-const initialState: DetailUserState = {
+const initialState: UserState = {
   displayName: "",
   birthDay: "",
 };
 
-export const detailUserSlice = createSlice({
+export const userSlice = createSlice({
   name: "detailUser",
   initialState,
   reducers: {
@@ -23,5 +23,5 @@ export const detailUserSlice = createSlice({
   },
 });
 
-export const { setBirthDay, setDisplayName } = detailUserSlice.actions;
-export default detailUserSlice.reducer;
+export const { setBirthDay, setDisplayName } = userSlice.actions;
+export default userSlice.reducer;

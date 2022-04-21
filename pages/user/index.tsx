@@ -15,7 +15,7 @@ import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
 import { fetchWithBaseURL } from "../../api/basicFetch";
-import { setGridPropsRow } from "../../hooks/GridPropsRowHook";
+import { setGridPropsRow } from "../../hooks/GridHook";
 
 // @ts-ignore
 const User: NextPage<IUser[]> = ({ data }) => {

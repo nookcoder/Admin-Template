@@ -71,6 +71,7 @@ export interface IDonation {
 }
 
 export interface IDonationContent {
+  id: number;
   bloodProduct: string;
   content: string;
   createdAt: string;

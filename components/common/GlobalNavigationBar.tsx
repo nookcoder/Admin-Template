@@ -27,6 +27,7 @@ const GlobalNavigationBar: React.FunctionComponent = () => {
   const handleMenuRouter = (target: string): MouseEventHandler<HTMLElement> => {
     return (event) => {
       event.preventDefault();
+      setMenuOpen(false);
       let url = target.toLowerCase();
       router.push("/" + url);
     };

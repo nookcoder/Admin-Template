@@ -1,7 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
 import Head from "next/head";
-import "react-quill/dist/quill.snow.css";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 

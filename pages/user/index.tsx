@@ -9,7 +9,7 @@ import {
   GridRowsProp,
   MuiEvent,
 } from "@mui/x-data-grid";
-import { ClickType, GridColumn } from "../../util/constant";
+import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
@@ -21,14 +21,14 @@ const User: NextPage<IUser[]> = ({ data }) => {
   const router = useRouter();
   const [userData, setUserData] = useState<Array<IUser[]>>();
 
-  const dataColumn: GridColDef[] = GridColumn.User;
+  const dataColumn: GridColDef[] = GRID_COLUMN.User;
   const dataRow: GridRowsProp = userData ? userData : [];
 
   const onCellClick = (
     params: GridCellParams<any>,
     event: MuiEvent<React.MouseEvent>,
   ) => {
-    if (event.detail == ClickType.DOUBLE) {
+    if (event.detail == ClICK_TYPE.DOUBLE) {
       routePageByUuid("user", params.row.uuid, router);
     }
   };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
-import { ClickType, GridColumn } from "../../util/constant";
+import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { fetchWithBaseURL } from "../../api/basicFetch";
 import {
   IDonation,
@@ -22,13 +22,13 @@ import { useRouter } from "next/router";
 const Story: NextPage<IDonation> = ({ data }) => {
   const router = useRouter();
   const [content, setContent] = useState<Array<IDonationContent>>();
-  const dataColum: GridColDef[] = GridColumn.Story;
+  const dataColum: GridColDef[] = GRID_COLUMN.Story;
   const dataRow: GridRowsProp = content ? content : [];
   const onCellClick = (
     params: GridCellParams<any>,
     event: MuiEvent<React.MouseEvent>,
   ) => {
-    if (event.detail == ClickType.DOUBLE) {
+    if (event.detail == ClICK_TYPE.DOUBLE) {
       routePageByUuid("story", params.row.uuid, router);
     }
   };

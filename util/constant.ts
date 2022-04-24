@@ -1,9 +1,9 @@
-export enum ClickType {
+export enum ClICK_TYPE {
   SINGLE = 1,
   DOUBLE = 2,
 }
 
-export const GridColumn = {
+export const GRID_COLUMN = {
   User: [
     { field: "displayName", headerName: "닉네임", width: 200 },
     { field: "email", headerName: "이메일", width: 200 },
@@ -27,3 +27,5 @@ export const GridColumn = {
     { field: "uuid", headerName: "사연 식별자", width: 300 },
   ],
 };
+
+export const FILE_TYPE = "image/jpg, image/png";

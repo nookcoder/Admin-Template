@@ -4,7 +4,6 @@ import styles from "../styles/Home.module.css";
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { useAppDispatch } from "../hooks/ReduxHooks";
 import { setAccessToken } from "../redux/feature/auth/authSlice";
 
@@ -25,44 +24,57 @@ const Home: NextPage = () => {
     }
   }, [dispatch, router.query]);
 
-  const onClickAdminTest = () => {
-    axios
-      .get(`${process.env["NEXT_PUBLIC_ADMIN_TEST"]}`, {
+  const onClickAdminTest = async () => {
+    // axios
+    //   .get(`${process.env["NEXT_PUBLIC_ADMIN_TEST"]}`, {
+    //     headers: {
+    //       "X-AUTH-TOKEN": `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyM2UwYWE3NC02ZmYwLTQ1NTYtOWJhMS0wZmQ2N2M5MmNkYTMiLCJyb2xlcyI6IkFETUlOIiwiaWF0IjoxNjUwOTgxNzk3LCJleHAiOjE2NTYxNjU3OTd9.f7ku5ixbxe5KSDEKGmzbm0dE39-NAPDOS02mBL1yJZ8`,
+    //       "Access-Control-Allow-Origin":
+    //         "https://admin-template-lyart.vercel.app",
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
+
+    const res = await fetch(
+      "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test",
+      {
+        mode: "no-cors",
+        method: "GET",
         headers: {
-          "X-AUTH-TOKEN": `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyM2UwYWE3NC02ZmYwLTQ1NTYtOWJhMS0wZmQ2N2M5MmNkYTMiLCJyb2xlcyI6IkFETUlOIiwiaWF0IjoxNjUwOTgxNzk3LCJleHAiOjE2NTYxNjU3OTd9.f7ku5ixbxe5KSDEKGmzbm0dE39-NAPDOS02mBL1yJZ8`,
-          "Access-Control-Allow-Origin":
-            "https://admin-template-lyart.vercel.app",
+          "X-AUTH-TOKEN":
+            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyM2UwYWE3NC02ZmYwLTQ1NTYtOWJhMS0wZmQ2N2M5MmNkYTMiLCJyb2xlcyI6IkFETUlOIiwiaWF0IjoxNjUwOTgxNzk3LCJleHAiOjE2NTYxNjU3OTd9.f7ku5ixbxe5KSDEKGmzbm0dE39-NAPDOS02mBL1yJZ8",
         },
-      })
-      .then((res) => {
+      },
+    );
+    const data = await res.json();
+    data
+      .then((res: any) => {
         console.log(res);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.error(err);
       });
   };
 
-  const onClickAdminTestAAA = () => {
-    axios
-      .get(
-        `http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test`,
-        {
-          headers: {
-            "Access-Control-Allow-Origin":
-              "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
-          },
-          proxy: {
-            protocol: "http",
-            host: "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
-            port: 5000,
-          },
-        },
-      )
-      .then((res) => {
+  const onClickAdminTestAAA = async () => {
+    const res = await fetch(
+      "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test",
+      {
+        mode: "no-cors",
+        method: "GET",
+      },
+    );
+    const data = await res.json();
+    data
+      .then((res: any) => {
         console.log(res);
-        console.log("hio");
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.error(err);
       });
   };

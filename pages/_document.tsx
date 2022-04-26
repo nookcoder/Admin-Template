@@ -5,10 +5,6 @@ export default function Document() {
     <Html>
       <Head>
         <meta charSet="UTF-8" />
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
       </Head>
 
       <body>

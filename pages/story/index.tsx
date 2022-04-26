@@ -44,6 +44,7 @@ const Story: NextPage<IDonation> = ({ data }) => {
           "Access-Control-Allow-Origin":
             "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
         },
+        mode: "no-cors",
       },
     );
     const data = res.json();

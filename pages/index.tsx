@@ -45,13 +45,17 @@ const Home: NextPage = () => {
   const onClickAdminTestAAA = () => {
     axios
       .get(
-        `http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.comv/api/v1/aaa/test`,
+        `http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test`,
         {
           headers: {
             "Access-Control-Allow-Origin":
               "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
           },
-          withCredentials: true,
+          proxy: {
+            protocol: "http",
+            host: "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
+            port: 5000,
+          },
         },
       )
       .then((res) => {

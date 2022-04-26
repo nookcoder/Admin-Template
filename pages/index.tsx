@@ -49,6 +49,7 @@ const Home: NextPage = () => {
           "Access-Control-Allow-Origin":
             "https://admin-template-lyart.vercel.app",
         },
+        withCredentials: true,
       })
       .then((res) => {
         console.log(res);

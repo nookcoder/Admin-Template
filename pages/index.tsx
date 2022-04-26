@@ -26,6 +26,8 @@ const Home: NextPage = () => {
       .get(`${process.env["NEXT_PUBLIC_ADMIN_TEST"]}`, {
         headers: {
           "X-AUTH-TOKEN": `${token}`,
+          "Access-Control-Allow-Origin":
+            "https://admin-template-lyart.vercel.app",
         },
       })
       .then((res) => {

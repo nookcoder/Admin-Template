@@ -56,6 +56,7 @@ const Home: NextPage = () => {
       )
       .then((res) => {
         console.log(res);
+        console.log("hio");
       })
       .catch((err) => {
         console.error(err);

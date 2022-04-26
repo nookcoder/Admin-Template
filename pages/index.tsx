@@ -44,13 +44,16 @@ const Home: NextPage = () => {
 
   const onClickAdminTestAAA = () => {
     axios
-      .get(`${process.env["NEXT_PUBLIC_BASE_URL"]}/api/v1/aaa/test`, {
-        headers: {
-          "X-AUTH-TOKEN": `${token}`,
-          "Access-Control-Allow-Origin":
-            "https://admin-template-lyart.vercel.app",
+      .get(
+        `http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test`,
+        {
+          headers: {
+            "X-AUTH-TOKEN": `${token}`,
+            "Access-Control-Allow-Origin":
+              "https://admin-template-lyart.vercel.app",
+          },
         },
-      })
+      )
       .then((res) => {
         console.log(res);
       })

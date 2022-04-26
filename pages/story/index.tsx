@@ -15,7 +15,7 @@ import {
   MuiEvent,
 } from "@mui/x-data-grid";
 import { setGridPropsRow } from "../../hooks/GridHook";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 
@@ -36,6 +36,13 @@ const Story: NextPage<IDonation> = ({ data }) => {
     setGridPropsRow(data.content, setContent);
   }, [data]);
 
+  const onClickRequestDonationFromBrowser = async () => {
+    const res = await fetchWithBaseURL("/api/v1/aaa/test");
+    const data = res.json();
+    console.log(res);
+    console.log(data);
+  };
+
   return (
     <div>
       <Head>
@@ -43,6 +50,7 @@ const Story: NextPage<IDonation> = ({ data }) => {
         <meta name="description" content="피플 Admin 사연 정보" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Button onClick={onClickRequestDonationFromBrowser}>Test Requet</Button>
       {content ? (
         <DataGrid
           onCellClick={onCellClick}

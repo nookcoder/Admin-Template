@@ -22,7 +22,7 @@ const Home: NextPage = () => {
       console.log("Success!");
     }
 
-    axios
+    await axios
       .get(`${process.env["NEXT_PUBLIC_ADMIN_TEST"]}`, {
         headers: {
           "X-AUTH-TOKEN": `${token}`,

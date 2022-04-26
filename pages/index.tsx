@@ -44,7 +44,7 @@ const Home: NextPage = () => {
 
   const onClickAdminTestAAA = () => {
     axios
-      .get(`${process.env["NEXT_PUBLIC_"]}/api/v1/aaa/test`, {
+      .get(`${process.env["NEXT_PUBLIC_BASE_URL"]}/api/v1/aaa/test`, {
         headers: {
           "X-AUTH-TOKEN": `${token}`,
           "Access-Control-Allow-Origin":

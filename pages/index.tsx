@@ -25,8 +25,7 @@ const Home: NextPage = () => {
     axios
       .get(`${process.env["NEXT_PUBLIC_ADMIN_TEST"]}`, {
         headers: {
-          "X-AUTH-TOKEN": `${tokenFromUrl.token}`,
-          "Access-Control-Allow-Origin": "*",
+          "X-AUTH-TOKEN": `${token}`,
         },
       })
       .then((res) => {

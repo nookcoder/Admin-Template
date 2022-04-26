@@ -48,7 +48,6 @@ const Home: NextPage = () => {
         `http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test`,
         {
           headers: {
-            "X-AUTH-TOKEN": `${token}`,
             "Access-Control-Allow-Origin":
               "https://admin-template-lyart.vercel.app",
           },

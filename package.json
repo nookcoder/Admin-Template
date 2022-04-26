@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "proxy": "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -20,7 +21,6 @@
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-drag-drop-files": "^2.3.5",
     "react-redux": "^8.0.0"
   },
   "devDependencies": {

@@ -37,7 +37,7 @@ const Story: NextPage<IDonation> = ({ data }) => {
   }, [data]);
 
   const onClickRequestDonationFromBrowser = async () => {
-    const res = await fetchWithBaseURL("/api/v1/donation");
+    const res = await fetch("https://pple-test.herokuapp.com/api/v1/donation");
     const data = res.json();
     console.log(res);
     console.log(data);

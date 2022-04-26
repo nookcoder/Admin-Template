@@ -37,11 +37,15 @@ const Story: NextPage<IDonation> = ({ data }) => {
   }, [data]);
 
   const onClickRequestDonationFromBrowser = async () => {
-    const res = await fetch("https://pple-test.herokuapp.com/api/v1/donation", {
-      headers: {
-        "Access-Control-Allow-Origin": "https://pple-test.herokuapp.com",
+    const res = await fetch(
+      "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/donation",
+      {
+        headers: {
+          "Access-Control-Allow-Origin":
+            "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
+        },
       },
-    });
+    );
     const data = res.json();
     console.log(res);
     console.log(data);

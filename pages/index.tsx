@@ -44,13 +44,16 @@ const Home: NextPage = () => {
 
   const onClickAdminTestAAA = () => {
     axios
-      .get(`https://pple-test.herokuapp.com/api/v1/aaa/test`, {
-        headers: {
-          "Access-Control-Allow-Origin":
-            "https://admin-template-lyart.vercel.app",
+      .get(
+        `http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.comv/api/v1/aaa/test`,
+        {
+          headers: {
+            "Access-Control-Allow-Origin":
+              "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      })
+      )
       .then((res) => {
         console.log(res);
         console.log("hio");

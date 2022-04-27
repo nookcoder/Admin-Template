@@ -4,7 +4,7 @@ import {
   InferGetServerSidePropsType,
   NextPage,
 } from "next";
-import { fetchWithBaseURL } from "../../api/basicFetch";
+import { fetchWithBaseURL } from "../../api/AppFetch";
 import { IOneDonation } from "../../model/interface/story/IOneDonation";
 import DetailTextField from "../../components/common/DetailTextField";
 import { useAppSelect } from "../../hooks/ReduxHooks";

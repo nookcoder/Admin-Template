@@ -13,7 +13,7 @@ import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
-import { fetchWithBaseURL } from "../../api/basicFetch";
+import { fetchWithBaseURL } from "../../api/AppFetch";
 import { setGridPropsRow } from "../../hooks/GridHook";
 
 // @ts-ignore

@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { getRouterQuery } from "../../hooks/RouterHook";
 import IUser from "../../model/interface/user/IUser";
-import { fetchData } from "../../api/basicFetch";
+import { fetchData } from "../../api/AppFetch";
 import { PrintErrorMessage } from "../../util/Error";
 import styles from "../../styles/AccountDetail.module.scss";
 import DetailTextField from "../../components/common/DetailTextField";

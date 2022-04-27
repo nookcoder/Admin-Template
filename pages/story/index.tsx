@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
-import { fetchWithBaseURL } from "../../api/basicFetch";
+import { fetchInApp, fetchWithBaseURL } from "../../api/AppFetch";
 import {
   IDonation,
   IDonationContent,
@@ -37,16 +37,7 @@ const Story: NextPage<IDonation> = ({ data }) => {
   }, [data]);
 
   const onClickRequestDonationFromBrowser = async () => {
-    const res = await fetch(
-      "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/donation",
-      {
-        headers: {
-          "Access-Control-Allow-Origin":
-            "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com",
-        },
-        mode: "no-cors",
-      },
-    );
+    const res = await fetchInApp("/api/v1/donation");
     const data = res.json();
     console.log(res);
     console.log(data);

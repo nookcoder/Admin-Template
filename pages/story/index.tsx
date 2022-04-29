@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
-import { fetchInApp, fetchWithBaseURL } from "../../api/AppFetch";
+import { fetchWithBaseURL } from "../../api/AppFetch";
 import {
   IDonation,
   IDonationContent,
@@ -15,7 +15,7 @@ import {
   MuiEvent,
 } from "@mui/x-data-grid";
 import { setGridPropsRow } from "../../hooks/GridHook";
-import { Button, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 
@@ -36,13 +36,6 @@ const Story: NextPage<IDonation> = ({ data }) => {
     setGridPropsRow(data.content, setContent);
   }, [data]);
 
-  const onClickRequestDonationFromBrowser = async () => {
-    const res = await fetchInApp("/api/v1/donation");
-    const data = res.json();
-    console.log(res);
-    console.log(data);
-  };
-
   return (
     <div>
       <Head>
@@ -50,7 +43,6 @@ const Story: NextPage<IDonation> = ({ data }) => {
         <meta name="description" content="피플 Admin 사연 정보" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Button onClick={onClickRequestDonationFromBrowser}>Test Requet</Button>
       {content ? (
         <DataGrid
           onCellClick={onCellClick}

@@ -13,7 +13,7 @@ import {
 import { NextPage } from "next";
 import Image from "next/image";
 import { FILE_TYPE } from "../../util/constant";
-import { fetchInApp } from "../../api/AppFetch";
+import { appAxiosPost } from "../../api/AppAxios";
 
 const Create: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +25,7 @@ const Create: NextPage = () => {
 
   const noticeTitle = useAppSelect((state) => state.notice.title);
   const noticeContent = useAppSelect((state) => state.notice.content);
+  const accessToken = useAppSelect((state) => state.auth.accessToken);
 
   const onChangeTitle = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,12 +52,18 @@ const Create: NextPage = () => {
 
   const onSubmit: FormEventHandler<HTMLElement> = (event) => {
     event.preventDefault();
-    fetchInApp("/api/v1/admin/notice/post")
+
+    const bodyDto = {
+      title: noticeTitle,
+      content: noticeContent,
+    };
+
+    appAxiosPost("/api/v1/admin/notice/post", bodyDto, accessToken)
       .then((res) => {
         console.log(res);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
       });
   };
 

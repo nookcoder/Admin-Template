@@ -2,44 +2,57 @@ import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { appAxiosGet } from "../../api/AppAxios";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import Notice from "../../model/interface/notice/notice";
+import {
+  DataGrid,
+  GridCellParams,
+  GridColDef,
+  GridRowsProp,
+  MuiEvent,
+} from "@mui/x-data-grid";
+import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
+import { setGridPropsRow } from "../../hooks/GridHook";
+import { routePageByUuid } from "../../hooks/RouterHook";
 
 const Notice: NextPage = () => {
   const router = useRouter();
+
   const accessToken = useAppSelect((state) => state.auth.accessToken);
   const [notices, setNotices] = useState<Notice[]>([]);
-  const [initial, setInitial] = useState<boolean>(false);
+  const [isInitial, setIsInitial] = useState<boolean>(true);
+  const dataColumn: GridColDef[] = GRID_COLUMN.NOTICE;
+  const dataRow: GridRowsProp = notices ? notices : [];
+
   const routeCreatingNoticePage = () => {
     router.push("/notice/create");
   };
-  const onClickGetNotice = () => {
-    appAxiosGet("/api/v1/notice/all", accessToken)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const onCellClick = (
+    params: GridCellParams<any>,
+    event: MuiEvent<React.MouseEvent>,
+  ) => {
+    if (event.detail == ClICK_TYPE.DOUBLE) {
+      routePageByUuid("notice", params.row.uuid, router);
+    }
   };
 
   useEffect(() => {
-    if (accessToken && !initial) {
-      setInitial(true);
+    if (isInitial) {
+      setIsInitial(false);
       appAxiosGet("/api/v1/notice/all", accessToken)
         .then(async (res) => {
           const noticeList: Notice[] = await res.data;
-          await setNotices(noticeList);
+          await setGridPropsRow(noticeList, setNotices);
+          console.log("OK!");
         })
         .catch((err) => {
           console.log(err);
         });
       return;
     }
-    alert("AccessToken 이 없습니다.");
-  }, [accessToken, initial]);
+  }, [accessToken, isInitial]);
 
   return (
     <div>
@@ -48,12 +61,19 @@ const Notice: NextPage = () => {
         <meta name="description" content="피플 Admin 공지사항" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      공지사항 페이지
+      <h2>공지사항 페이지</h2>
+      {notices ? (
+        <DataGrid
+          onCellClick={onCellClick}
+          columns={dataColumn}
+          rows={dataRow}
+          autoHeight={true}
+        />
+      ) : (
+        <CircularProgress />
+      )}
       <Button variant={"contained"} onClick={routeCreatingNoticePage}>
         공지 글 등록하기
-      </Button>
-      <Button variant={"contained"} onClick={onClickGetNotice}>
-        공지 글 확인하기
       </Button>
     </div>
   );

@@ -1,18 +1,9 @@
 import React from "react";
 import IUser from "../model/interface/user/IUser";
 
-export function fetchInApp(url: string, jwt?: string): Promise<Response> {
-  if (jwt) {
-    return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${url}`, {
-      mode: "no-cors",
-      headers: {
-        "X-AUTH-TOKEN": `${jwt}`,
-      },
-    });
-  }
-  return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${url}`, {
-    mode: "no-cors",
-  });
+export function fetchInApp(url: string, option?: any): Promise<Response> {
+  console.log(JSON.stringify(option));
+  return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${url}`, ...option);
 }
 
 export function fetchWithBaseURL(url: string, option?: any) {

@@ -21,6 +21,7 @@ const Home: NextPage = () => {
     if (tokenFromUrl.token && typeof tokenFromUrl.token == "string") {
       setToken(tokenFromUrl.token);
       dispatch(setAccessToken(tokenFromUrl.token));
+      console.log("OK");
     }
   }, [dispatch, router.query]);
 

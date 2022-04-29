@@ -26,6 +26,11 @@ export const GRID_COLUMN = {
     { field: "createdAt", headerName: "등록 일자", width: 110 },
     { field: "uuid", headerName: "사연 식별자", width: 300 },
   ],
+
+  NOTICE: [
+    { field: "title", headerName: "공지 제목" },
+    { field: "content", headerName: "공지 내용", width: 500 },
+  ],
 };
 
 export const FILE_TYPE = "image/jpg, image/png";

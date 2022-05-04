@@ -3,6 +3,7 @@ import userSlice from "./feature/detail/userSlice";
 import donationSlice from "./feature/detail/donationSlice";
 import authSlice from "./feature/auth/authSlice";
 import noticeSlice from "./feature/notice/noticeSlice";
+import eventSlice from "./feature/event/eventSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
@@ -11,6 +12,7 @@ const reducers = combineReducers({
   detailDonation: donationSlice,
   notice: noticeSlice,
   auth: authSlice,
+  event: eventSlice,
 });
 
 const persistConfig = {

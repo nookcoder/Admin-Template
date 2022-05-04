@@ -16,6 +16,7 @@ import {
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { setGridPropsRow } from "../../hooks/GridHook";
 import { routePageByUuid } from "../../hooks/RouterHook";
+import { PrintErrorMessage } from "../../util/Error";
 
 const Notice: NextPage = () => {
   const router = useRouter();
@@ -48,11 +49,12 @@ const Notice: NextPage = () => {
           console.log("OK!");
         })
         .catch((err) => {
-          console.log(err);
+          PrintErrorMessage(err);
+          router.push("/");
         });
       return;
     }
-  }, [accessToken, isInitial]);
+  }, [accessToken, isInitial, router]);
 
   return (
     <div>

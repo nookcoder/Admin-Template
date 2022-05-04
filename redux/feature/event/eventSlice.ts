@@ -20,7 +20,7 @@ export const eventSlice = createSlice({
       state.title = action.payload;
     },
     setEventContent: (state, action: PayloadAction<string>) => {
-      state.title = action.payload;
+      state.content = action.payload;
     },
   },
 });

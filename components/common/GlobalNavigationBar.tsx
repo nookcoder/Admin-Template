@@ -36,7 +36,7 @@ const GlobalNavigationBar: React.FunctionComponent = () => {
   const menuList: ReactNode = (
     <Box width={250} role="presentation">
       <List>
-        {(["User", "Story", "Notice"] as const).map((menu, key) => (
+        {(["User", "Story", "Notice", "Event"] as const).map((menu, key) => (
           <ListItem
             key={key}
             className={styles.menu_list_item}

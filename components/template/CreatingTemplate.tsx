@@ -8,6 +8,11 @@ import {
 import { appAxiosPost } from "../../api/AppAxios";
 import { FILE_TYPE } from "../../util/constant";
 import Image from "next/image";
+import {
+  setEventContent,
+  setEventTitle,
+} from "../../redux/feature/event/eventSlice";
+import { PrintErrorMessage } from "../../util/Error";
 
 type CreatingType = {
   title: string;
@@ -41,20 +46,27 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
   const dispatch = useAppDispatch();
 
   const accessToken = useAppSelect((state) => state.auth.accessToken);
-
+  const typeText = type == "NOTICE" ? "공지" : "이벤트";
   const onChangeTitle = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setTitle(event.currentTarget.value);
-      dispatch(setNoticeTitle(event.currentTarget.value));
+      if (type == "NOTICE") {
+        dispatch(setNoticeTitle(event.currentTarget.value));
+        return;
+      }
+      dispatch(setEventTitle(event.currentTarget.value));
     },
-    [dispatch, setTitle],
+    [dispatch, setTitle, type],
   );
   const onChangeContent = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setContent(event.currentTarget.value);
-      dispatch(setNoticeContent(event.currentTarget.value));
+      if (type == "NOTICE") {
+        dispatch(setNoticeContent(event.currentTarget.value));
+      }
+      dispatch(setEventContent(event.currentTarget.value));
     },
-    [dispatch, setContent],
+    [dispatch, setContent, type],
   );
   const handleFillChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -82,32 +94,36 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
 
   const onSubmitEvent: FormEventHandler<HTMLElement> = (event) => {
     event.preventDefault();
+    console.log(reduxTitle);
+    console.log(reduxContent);
+    console.log(file);
 
     if (file) {
       const bodyDto = new FormData();
       bodyDto.set("content", reduxContent);
       bodyDto.set("title", reduxTitle);
       bodyDto.set("uploadImageFile", file, file.name);
-
+      console.log(bodyDto);
       appAxiosPost(apiUrl, bodyDto, accessToken)
         .then((res) => {
           console.log(res);
         })
         .catch((err) => {
-          console.log(err);
+          PrintErrorMessage(err);
         });
     }
   };
 
   return (
     <div>
-      <h1>공지사항 등록/수정</h1>
+      <h1>{typeText} 등록/수정</h1>
+
       <form
         method={"POST"}
         onSubmit={type == "NOTICE" ? onSubmitNotice : onSubmitEvent}
       >
         <div>
-          <InputLabel htmlFor={"notice_title"}>공지 제목</InputLabel>
+          <InputLabel htmlFor={"notice_title"}>{typeText} 제목</InputLabel>
           <TextField
             required
             aria-label={"공지 제목"}
@@ -119,7 +135,7 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
         </div>
 
         <div>
-          <InputLabel htmlFor={"notice_content"}>공지 내용</InputLabel>
+          <InputLabel htmlFor={"notice_content"}>{typeText} 내용</InputLabel>
           <TextField
             value={content}
             id={"notice_content"}

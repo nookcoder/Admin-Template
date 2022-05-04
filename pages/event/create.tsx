@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { NextPage } from "next";
-import CreatingTemplate from "../../components/template/CreatingTemplate";
 import { useAppSelect } from "../../hooks/ReduxHooks";
+import CreatingTemplate from "../../components/template/CreatingTemplate";
 import { API } from "../../util/constant";
 
-const NoticeCreate: NextPage = () => {
+const EventCreate: NextPage = () => {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [file, setFile] = useState<File>();
   const [imageSource, setImageSource] = useState<string>();
-  const noticeTitle = useAppSelect((state) => state.notice.title);
-  const noticeContent = useAppSelect((state) => state.notice.content);
+  const eventTitle = useAppSelect((state) => state.event.title);
+  const eventContent = useAppSelect((state) => state.event.title);
+
   return (
     <div style={{ textAlign: "center" }}>
       <CreatingTemplate
@@ -22,13 +23,13 @@ const NoticeCreate: NextPage = () => {
         setFile={setFile}
         imageSource={imageSource}
         setImageSource={setImageSource}
-        type={"NOTICE"}
-        apiUrl={API.POST.NOTICE}
-        reduxTitle={noticeTitle}
-        reduxContent={noticeContent}
+        type={"EVENT"}
+        apiUrl={API.POST.EVENT}
+        reduxTitle={eventTitle}
+        reduxContent={eventContent}
       />
     </div>
   );
 };
 
-export default NoticeCreate;
+export default EventCreate;

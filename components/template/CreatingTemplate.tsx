@@ -9,7 +9,7 @@ import { appAxiosPost } from "../../api/AppAxios";
 import { FILE_TYPE } from "../../util/constant";
 import Image from "next/image";
 
-type NoticeType = {
+type CreatingType = {
   title: string;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   content: string;
@@ -18,9 +18,13 @@ type NoticeType = {
   setFile: React.Dispatch<React.SetStateAction<File | undefined>>;
   imageSource: string | undefined;
   setImageSource: React.Dispatch<React.SetStateAction<string | undefined>>;
+  type: string;
+  apiUrl: string;
+  reduxTitle: string;
+  reduxContent: string;
 };
 
-const NoticeTemplate: React.FunctionComponent<NoticeType> = ({
+const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
   title,
   setTitle,
   content,
@@ -29,11 +33,13 @@ const NoticeTemplate: React.FunctionComponent<NoticeType> = ({
   setFile,
   imageSource,
   setImageSource,
+  type,
+  apiUrl,
+  reduxTitle,
+  reduxContent,
 }) => {
   const dispatch = useAppDispatch();
 
-  const noticeTitle = useAppSelect((state) => state.notice.title);
-  const noticeContent = useAppSelect((state) => state.notice.content);
   const accessToken = useAppSelect((state) => state.auth.accessToken);
 
   const onChangeTitle = useCallback(
@@ -57,15 +63,15 @@ const NoticeTemplate: React.FunctionComponent<NoticeType> = ({
       setImageSource(URL.createObjectURL(file));
     }
   };
-  const onSubmit: FormEventHandler<HTMLElement> = (event) => {
+  const onSubmitNotice: FormEventHandler<HTMLElement> = (event) => {
     event.preventDefault();
 
     const bodyDto = {
-      title: noticeTitle,
-      content: noticeContent,
+      title: reduxTitle,
+      content: reduxContent,
     };
 
-    appAxiosPost("/api/v1/admin/notice/post", bodyDto, accessToken)
+    appAxiosPost(apiUrl, bodyDto, accessToken)
       .then((res) => {
         console.log(res);
       })
@@ -74,10 +80,32 @@ const NoticeTemplate: React.FunctionComponent<NoticeType> = ({
       });
   };
 
+  const onSubmitEvent: FormEventHandler<HTMLElement> = (event) => {
+    event.preventDefault();
+
+    if (file) {
+      const bodyDto = new FormData();
+      bodyDto.set("content", reduxContent);
+      bodyDto.set("title", reduxTitle);
+      bodyDto.set("uploadImageFile", file, file.name);
+
+      appAxiosPost(apiUrl, bodyDto, accessToken)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <div>
       <h1>공지사항 등록/수정</h1>
-      <form method={"POST"} onSubmit={onSubmit}>
+      <form
+        method={"POST"}
+        onSubmit={type == "NOTICE" ? onSubmitNotice : onSubmitEvent}
+      >
         <div>
           <InputLabel htmlFor={"notice_title"}>공지 제목</InputLabel>
           <TextField

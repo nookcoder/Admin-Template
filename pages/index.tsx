@@ -26,21 +26,6 @@ const Home: NextPage = () => {
   }, [dispatch, router.query]);
 
   const onClickAdminTest = async () => {
-    // axios
-    //   .get(`${process.env["NEXT_PUBLIC_ADMIN_TEST"]}`, {
-    //     headers: {
-    //       "X-AUTH-TOKEN": `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyM2UwYWE3NC02ZmYwLTQ1NTYtOWJhMS0wZmQ2N2M5MmNkYTMiLCJyb2xlcyI6IkFETUlOIiwiaWF0IjoxNjUwOTgxNzk3LCJleHAiOjE2NTYxNjU3OTd9.f7ku5ixbxe5KSDEKGmzbm0dE39-NAPDOS02mBL1yJZ8`,
-    //       "Access-Control-Allow-Origin":
-    //         "https://admin-template-lyart.vercel.app",
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
-
     const res = await fetch(
       "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/aaa/test",
       {

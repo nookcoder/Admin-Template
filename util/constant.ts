@@ -31,6 +31,32 @@ export const GRID_COLUMN = {
     { field: "title", headerName: "공지 제목" },
     { field: "content", headerName: "공지 내용", width: 500 },
   ],
+
+  EVENT: [
+    { field: "title", headerName: "이벤트 제목" },
+    { field: "content", headerName: "이벤트 내용", width: 500 },
+  ],
+};
+
+export const API = {
+  GET: {
+    ALL: {
+      EVENT: "/api/v1/pple/event",
+      NOTICE: "/api/v1/notice/all",
+      ACCOUNT: "/api/v1/account/all",
+      DONATION: "/api/v1/donation/all",
+    },
+  },
+
+  POST: {
+    EVENT: "/api/v1/admin/pple/event",
+    NOTICE: "/api/v1/admin/notice/post",
+  },
+
+  PATCH: {
+    EVENT: "/api/v1/admin/pple/event",
+    NOTICE: "/api/v1/admin/notice/update",
+  },
 };
 
 export const FILE_TYPE = "image/jpg, image/png";

@@ -32,9 +32,9 @@ const EventDetail: NextPage<IEvent> = ({
   const uploadFileInput = useRef<HTMLInputElement>(null);
 
   const onClickFileUploadElement = () => {
-    if (uploadFileInput) {
-      uploadFileInput.current.click();
-      return;
+    if (uploadFileInput && uploadFileInput.current) {
+      const { current } = uploadFileInput;
+      current.click();
     }
     return;
   };

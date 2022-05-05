@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface EventState {
   title: string;
   content: string;
-  file: File | undefined | null;
+  imageSourceUrl: string;
 }
 
 const initialState: EventState = {
   title: "",
   content: "",
-  file: null,
+  imageSourceUrl: "",
 };
 
 export const eventSlice = createSlice({
@@ -22,8 +22,12 @@ export const eventSlice = createSlice({
     setEventContent: (state, action: PayloadAction<string>) => {
       state.content = action.payload;
     },
+    setEventImageUrl: (state, action: PayloadAction<string>) => {
+      state.imageSourceUrl = action.payload;
+    },
   },
 });
 
-export const { setEventTitle, setEventContent } = eventSlice.actions;
+export const { setEventTitle, setEventContent, setEventImageUrl } =
+  eventSlice.actions;
 export default eventSlice.reducer;

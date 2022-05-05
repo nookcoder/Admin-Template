@@ -8,6 +8,7 @@ import {
 } from "../../redux/feature/detail/userSlice";
 import { setStoryTitle } from "../../redux/feature/detail/donationSlice";
 import { IDetailTextField } from "../../model/interface/common/IDetailComponent";
+import { setEventTitle } from "../../redux/feature/event/eventSlice";
 
 const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
   defaultValue,
@@ -27,6 +28,9 @@ const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
           break;
         case "사연제목":
           dispatch(setStoryTitle(payload));
+          break;
+        case "이벤트 제목":
+          dispatch(setEventTitle(payload));
           break;
       }
     },
@@ -54,6 +58,7 @@ const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
         variant="standard"
         onChange={onChange}
         value={value}
+        fullWidth={true}
       />
     </div>
   );

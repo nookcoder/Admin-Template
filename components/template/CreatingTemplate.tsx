@@ -73,6 +73,7 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
       const file = event.target.files[0];
       setFile(file);
       setImageSource(URL.createObjectURL(file));
+      dispatch(setEventContent(URL.createObjectURL(file)));
     }
   };
   const onSubmitNotice: FormEventHandler<HTMLElement> = (event) => {
@@ -94,16 +95,12 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
 
   const onSubmitEvent: FormEventHandler<HTMLElement> = (event) => {
     event.preventDefault();
-    console.log(reduxTitle);
-    console.log(reduxContent);
-    console.log(file);
 
     if (file) {
       const bodyDto = new FormData();
       bodyDto.set("content", reduxContent);
       bodyDto.set("title", reduxTitle);
       bodyDto.set("uploadImageFile", file, file.name);
-      console.log(bodyDto);
       appAxiosPost(apiUrl, bodyDto, accessToken)
         .then((res) => {
           console.log(res);

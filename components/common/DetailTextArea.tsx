@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../hooks/ReduxHooks";
 import { setStoryContent } from "../../redux/feature/detail/donationSlice";
 import styles from "../styles/DetailText.module.scss";
 import { TextField } from "@mui/material";
+import { setEventContent } from "../../redux/feature/event/eventSlice";
 
 const DetailTextArea: React.FunctionComponent<IDetailTextArea> = ({
   defaultValue,
@@ -18,6 +19,9 @@ const DetailTextArea: React.FunctionComponent<IDetailTextArea> = ({
       switch (type) {
         case "사연내용":
           dispatch(setStoryContent(payload));
+          break;
+        case "이벤트 내용":
+          dispatch(setEventContent(payload));
           break;
       }
     },
@@ -48,6 +52,7 @@ const DetailTextArea: React.FunctionComponent<IDetailTextArea> = ({
         minRows={1}
         maxRows={15}
         multiline
+        fullWidth={true}
       />
     </div>
   );

@@ -46,7 +46,6 @@ const Event: NextPage = () => {
         .then(async (res) => {
           const eventList: IEvent[] = await res.data;
           await setGridPropsRow(eventList, setEvents);
-          console.log("OK!");
         })
         .catch((err) => {
           PrintErrorMessage(err);

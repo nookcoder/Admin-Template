@@ -7,6 +7,12 @@ jobs:
     name: Connect To EC2
     runs-on: ubuntu-latest
     steps:
+      - name: Download AWS CLi
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
       - name: Start AWS EC2
         run: |
           aws ec2 start-instance --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID}}

@@ -13,14 +13,16 @@ import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
-import { fetchWithBaseURL } from "../../api/AppFetch";
-import { setGridPropsRow } from "../../hooks/GridHook";
+import { useAppSelect } from "../../hooks/ReduxHooks";
+import { initGridProps } from "../../lib/api/AppFetch";
 
 // @ts-ignore
-const User: NextPage<IUser[]> = ({ data }) => {
+const User: NextPage = () => {
   const router = useRouter();
-  const [userData, setUserData] = useState<Array<IUser[]>>();
 
+  const accessToken = useAppSelect((state) => state.auth.accessToken);
+  const [isInitial, setIsInitial] = useState<boolean>(true);
+  const [userData, setUserData] = useState<IUser[]>();
   const dataColumn: GridColDef[] = GRID_COLUMN.User;
   const dataRow: GridRowsProp = userData ? userData : [];
 
@@ -34,8 +36,11 @@ const User: NextPage<IUser[]> = ({ data }) => {
   };
 
   useEffect(() => {
-    setGridPropsRow(data, setUserData);
-  }, [data]);
+    if (isInitial) {
+      initGridProps("/api/v1/account/all", accessToken, setUserData);
+      setIsInitial(false);
+    }
+  }, [isInitial, accessToken]);
 
   // 기본 회원 정보, 감사 메세지 수 , 좋/댓/공, 수혈완료, 포인트
   return (
@@ -58,13 +63,5 @@ const User: NextPage<IUser[]> = ({ data }) => {
     </>
   );
 };
-
-export async function getServerSideProps() {
-  const res = await fetchWithBaseURL("/api/v1/account/all");
-  const data = await res.json();
-  return {
-    props: { data },
-  };
-}
 
 export default User;

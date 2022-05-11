@@ -19,3 +19,11 @@ export function appAxiosGet(url: string, accessToken: string) {
     },
   });
 }
+
+export function appAxiosPatch(url: string, formData: any, accessToken: string) {
+  return appAxios.patch(url, formData, {
+    headers: {
+      "X-AUTH-TOKEN": `${accessToken}`,
+    },
+  });
+}

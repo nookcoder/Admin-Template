@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { Button, CircularProgress } from "@mui/material";
-import { appAxiosGet } from "../../api/AppAxios";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import Notice from "../../model/interface/notice/notice";
 import {
@@ -14,9 +13,8 @@ import {
   MuiEvent,
 } from "@mui/x-data-grid";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
-import { setGridPropsRow } from "../../hooks/GridHook";
 import { routePageByUuid } from "../../hooks/RouterHook";
-import { PrintErrorMessage } from "../../util/Error";
+import { initGridProps } from "../../lib/api/AppFetch";
 
 const Notice: NextPage = () => {
   const router = useRouter();
@@ -30,6 +28,7 @@ const Notice: NextPage = () => {
   const routeCreatingNoticePage = () => {
     router.push("/notice/create");
   };
+
   const onCellClick = (
     params: GridCellParams<any>,
     event: MuiEvent<React.MouseEvent>,
@@ -41,20 +40,10 @@ const Notice: NextPage = () => {
 
   useEffect(() => {
     if (isInitial) {
+      initGridProps("/api/v1/notice/all", accessToken, setNotices);
       setIsInitial(false);
-      appAxiosGet("/api/v1/notice/all", accessToken)
-        .then(async (res) => {
-          const noticeList: Notice[] = await res.data;
-          await setGridPropsRow(noticeList, setNotices);
-          console.log("OK!");
-        })
-        .catch((err) => {
-          PrintErrorMessage(err);
-          router.push("/");
-        });
-      return;
     }
-  }, [accessToken, isInitial, router]);
+  }, [isInitial, setNotices, accessToken]);
 
   return (
     <div>
@@ -64,7 +53,7 @@ const Notice: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>공지사항 페이지</h2>
-      {notices ? (
+      {notices.length !== 0 ? (
         <DataGrid
           onCellClick={onCellClick}
           columns={dataColumn}

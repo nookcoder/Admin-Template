@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAppSelect } from "../../hooks/ReduxHooks";
@@ -12,10 +12,9 @@ import {
 } from "@mui/x-data-grid";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { IEvent } from "../../model/interface/event/IEvent";
-import { setGridPropsRow } from "../../hooks/GridHook";
 import { Button, CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
-import { fetchWithBaseURL } from "../../api/AppFetch";
+import { initGridProps } from "../../lib/api/AppFetch";
 
 const Event: NextPage = () => {
   const router = useRouter();
@@ -37,22 +36,12 @@ const Event: NextPage = () => {
     }
   };
 
-  const initEvents = useCallback(async () => {
-    const res = await fetchWithBaseURL("/api/v1/pple/event", {
-      header: {
-        "X-AUTH-TOKEN": `${accessToken}`,
-      },
-    });
-    const data = await res.json();
-    await setGridPropsRow([...data], setEvents);
-  }, [accessToken]);
-
   useEffect(() => {
     if (isInitial) {
-      initEvents();
+      initGridProps("/api/v1/pple/event", accessToken, setEvents);
       setIsInitial(false);
     }
-  }, [initEvents, isInitial]);
+  }, [accessToken, isInitial]);
 
   return (
     <div>

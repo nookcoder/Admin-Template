@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NextPage } from "next";
 import Head from "next/head";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
-import { fetchWithBaseURL } from "../../api/AppFetch";
-import {
-  IDonation,
-  IDonationContent,
-} from "../../model/interface/story/IDonation";
+import { fetchWithBaseURL } from "../../lib/api/AppFetch";
+import { IDonationContent } from "../../model/interface/story/IDonation";
 import {
   DataGrid,
   GridCellParams,
@@ -14,14 +11,18 @@ import {
   GridRowsProp,
   MuiEvent,
 } from "@mui/x-data-grid";
-import { setGridPropsRow } from "../../hooks/GridHook";
 import { CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
+import { useAppSelect } from "../../hooks/ReduxHooks";
+import { setGridPropsRow } from "../../hooks/GridHook";
 
-const Story: NextPage<IDonation> = ({ data }) => {
+const Story: NextPage = () => {
   const router = useRouter();
+
+  const accessToken = useAppSelect((state) => state.auth.accessToken);
   const [content, setContent] = useState<Array<IDonationContent>>();
+  const [isInitial, setInitial] = useState<boolean>(true);
   const dataColum: GridColDef[] = GRID_COLUMN.Story;
   const dataRow: GridRowsProp = content ? content : [];
   const onCellClick = (
@@ -32,9 +33,24 @@ const Story: NextPage<IDonation> = ({ data }) => {
       routePageByUuid("story", params.row.uuid, router);
     }
   };
+
+  const initStories = useCallback(async () => {
+    const res = await fetchWithBaseURL("/api/v1/donation", {
+      header: {
+        "X-AUTH-TOKEN": `${accessToken}, `,
+      },
+    });
+
+    const data = await res.json();
+    setGridPropsRow([...data["content"]], setContent);
+  }, [accessToken]);
+
   useEffect(() => {
-    setGridPropsRow(data.content, setContent);
-  }, [data]);
+    if (isInitial) {
+      initStories();
+      setInitial(false);
+    }
+  }, [initStories, isInitial]);
 
   return (
     <div>

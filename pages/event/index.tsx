@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useAppSelect } from "../../hooks/ReduxHooks";
@@ -11,19 +11,17 @@ import {
   MuiEvent,
 } from "@mui/x-data-grid";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
-import { appAxiosGet } from "../../api/AppAxios";
 import { IEvent } from "../../model/interface/event/IEvent";
 import { setGridPropsRow } from "../../hooks/GridHook";
-import { PrintErrorMessage } from "../../util/Error";
 import { Button, CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
+import { fetchWithBaseURL } from "../../api/AppFetch";
 
 const Event: NextPage = () => {
   const router = useRouter();
-
   const accessToken = useAppSelect((state) => state.auth.accessToken);
+  const [isInitial, setIsInitial] = useState<boolean>(true);
   const [events, setEvents] = useState<IEvent[]>();
-  const [isInitial, setInitial] = useState<boolean>(true);
   const dataRow: GridRowsProp = events ? events : [];
   const dataColumn: GridColDef[] = GRID_COLUMN.EVENT;
 
@@ -39,20 +37,22 @@ const Event: NextPage = () => {
     }
   };
 
+  const initEvents = useCallback(async () => {
+    const res = await fetchWithBaseURL("/api/v1/pple/event", {
+      header: {
+        "X-AUTH-TOKEN": `${accessToken}`,
+      },
+    });
+    const data = await res.json();
+    await setGridPropsRow([...data], setEvents);
+  }, [accessToken]);
+
   useEffect(() => {
-    if (isInitial && accessToken) {
-      setInitial(false);
-      appAxiosGet("api/v1/pple/event", accessToken)
-        .then(async (res) => {
-          const eventList: IEvent[] = await res.data;
-          await setGridPropsRow(eventList, setEvents);
-        })
-        .catch((err) => {
-          PrintErrorMessage(err);
-          router.push("/");
-        });
+    if (isInitial) {
+      initEvents();
+      setIsInitial(false);
     }
-  }, [isInitial, accessToken, router]);
+  }, [initEvents, isInitial]);
 
   return (
     <div>

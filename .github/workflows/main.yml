@@ -20,4 +20,4 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Test Node
-        run: node -v
+        run: node install

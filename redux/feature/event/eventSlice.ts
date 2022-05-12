@@ -4,12 +4,14 @@ interface EventState {
   title: string;
   content: string;
   imageSourceUrl: string;
+  uuid: string;
 }
 
 const initialState: EventState = {
   title: "",
   content: "",
   imageSourceUrl: "",
+  uuid: "",
 };
 
 export const eventSlice = createSlice({
@@ -24,6 +26,10 @@ export const eventSlice = createSlice({
     },
     setEventImageUrl: (state, action: PayloadAction<string>) => {
       state.imageSourceUrl = action.payload;
+    },
+
+    setEventUuid: (state, action: PayloadAction<string>) => {
+      state.uuid = action.payload;
     },
   },
 });

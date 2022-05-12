@@ -5,9 +5,8 @@ import {
   setNoticeContent,
   setNoticeTitle,
 } from "../../redux/feature/notice/noticeSlice";
-import { appAxiosPost } from "../../api/AppAxios";
+import { appAxiosPost } from "../../lib/api/AppAxios";
 import { FILE_TYPE } from "../../util/constant";
-import Image from "next/image";
 import {
   setEventContent,
   setEventTitle,
@@ -155,12 +154,12 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
         {imageSource ? (
           <div style={{ textAlign: "center" }}>
             <h4>실제 모바일에는 사이즈 맞춰서 들어갈거에요</h4>
-            <Image
-              src={imageSource}
-              alt={"미리보기 이미지"}
-              width={300}
-              height={300}
-            />
+            {/*<Image*/}
+            {/*  src={imageSource}*/}
+            {/*  alt={"미리보기 이미지"}*/}
+            {/*  width={300}*/}
+            {/*  height={300}*/}
+            {/*/>*/}
           </div>
         ) : (
           <></>

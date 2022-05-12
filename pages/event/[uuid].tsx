@@ -1,41 +1,24 @@
-import React, {
-  ChangeEvent,
-  FormEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  NextPage,
-} from "next";
+import React, { ChangeEvent, FormEventHandler, useRef, useState } from "react";
+import { NextPage } from "next";
 import { useAppDispatch, useAppSelect } from "../../hooks/ReduxHooks";
 import { Button } from "@mui/material";
 import { FILE_TYPE } from "../../util/constant";
 import styles from "../../styles/EventUpdate.module.scss";
-import {
-  setEventContent,
-  setEventImageUrl,
-  setEventTitle,
-} from "../../redux/feature/event/eventSlice";
+import { setEventImageUrl } from "../../redux/feature/event/eventSlice";
 import { IEvent } from "../../model/interface/event/IEvent";
 import DetailTextArea from "../../components/common/DetailTextArea";
 import DetailTextField from "../../components/common/DetailTextField";
 import { auto } from "@popperjs/core";
-import { loadEvent } from "../../lib/fetch-events";
-import { appAxiosPatch } from "../../api/AppAxios";
+import { appAxiosPatch } from "../../lib/api/AppAxios";
 import { useRouter } from "next/router";
 import { PrintErrorMessage } from "../../util/Error";
 
-const EventDetail: NextPage<IEvent> = ({
-  event,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const EventDetail: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const uploadFileInput = useRef<HTMLInputElement>(null);
 
-  const [uuid, setUuid] = useState<string>(event.uuid);
+  // const [uuid, setUuid] = useState<string>(event.uuid);
   const [imageFile, setImageFile] = useState<File>();
   const [eventDetail, setEventDetail] = useState<IEvent>();
 
@@ -64,7 +47,7 @@ const EventDetail: NextPage<IEvent> = ({
     const bodyDto = new FormData();
     bodyDto.set("title", title);
     bodyDto.set("content", content);
-    bodyDto.set("eventUuid", uuid);
+    // bodyDto.set("eventUuid", uuid);
     if (imageFile) {
       bodyDto.set("uploadImageFile", imageFile, imageFile.name);
     }
@@ -77,13 +60,13 @@ const EventDetail: NextPage<IEvent> = ({
         PrintErrorMessage(err.status);
       });
   };
-
-  useEffect(() => {
-    setEventDetail(event);
-    dispatch(setEventTitle(event.title));
-    dispatch(setEventContent(event.content));
-    dispatch(setEventImageUrl(event.eventImageUrl));
-  }, [event, dispatch]);
+  //
+  // useEffect(() => {
+  //   setEventDetail(event);
+  //   dispatch(setEventTitle(event.title));
+  //   dispatch(setEventContent(event.content));
+  //   dispatch(setEventImageUrl(event.eventImageUrl));
+  // }, [event, dispatch]);
 
   return (
     <div>
@@ -136,22 +119,22 @@ const EventDetail: NextPage<IEvent> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { uuid } = context.query;
-  if (!uuid) {
-    console.log("UUID 가 없습니다");
-  }
-  if (typeof uuid == "string") {
-    const event = await loadEvent(uuid);
-    return {
-      props: { event },
-    };
-  }
-  return {
-    props: {
-      event: null,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const { uuid } = context.query;
+//   if (!uuid) {
+//     console.log("UUID 가 없습니다");
+//   }
+//   if (typeof uuid == "string") {
+//     const event = await loadEvent(uuid);
+//     return {
+//       props: { event },
+//     };
+//   }
+//   return {
+//     props: {
+//       event: null,
+//     },
+//   };
+// };
 
 export default EventDetail;

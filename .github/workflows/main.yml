@@ -1,26 +1,21 @@
-name: StartEC2
+name: prod build and deploy
 
-on: push
+on: [pull_request,push]
+
+env:
+  AWS_REGION: ap-northeast-2
+  NODE_VERSION: 14
 
 jobs:
-  build:
-    name: Connect To EC2
+  build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Download AWS CLi
-        run: |
-          aws -h
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Start AWS EC2
-        run: |
-          aws ec2 start-instance --instance-ids ${{secrets.AWS_EC2_INSTANCE_ID}}
-        env:
-          AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-          AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          AWS_DEFAULT_REGION: "${{ secrets.AWS_REGION }}"
-
-        
-
-
-
-
+      - name: Setup NodeJs environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+        run: npm install

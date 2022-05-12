@@ -16,6 +16,7 @@ import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import { setGridPropsRow } from "../../hooks/GridHook";
+import { PrintErrorMessage } from "../../util/Error";
 
 const Story: NextPage = () => {
   const router = useRouter();
@@ -47,7 +48,9 @@ const Story: NextPage = () => {
 
   useEffect(() => {
     if (isInitial) {
-      initStories();
+      initStories().catch((err) => {
+        PrintErrorMessage(err.status);
+      });
       setInitial(false);
     }
   }, [initStories, isInitial]);
@@ -72,13 +75,5 @@ const Story: NextPage = () => {
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  const res = await fetchWithBaseURL("/api/v1/donation");
-  const data = await res.json();
-  return {
-    props: { data },
-  };
-}
 
 export default Story;

@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import { initGridProps } from "../../lib/api/AppFetch";
+import { PrintErrorMessage } from "../../util/Error";
 
 // @ts-ignore
 const User: NextPage = () => {
@@ -37,7 +38,11 @@ const User: NextPage = () => {
 
   useEffect(() => {
     if (isInitial) {
-      initGridProps("/api/v1/account/all", accessToken, setUserData);
+      initGridProps("/api/v1/account/all", accessToken, setUserData).catch(
+        (err) => {
+          PrintErrorMessage(err.status);
+        },
+      );
       setIsInitial(false);
     }
   }, [isInitial, accessToken]);

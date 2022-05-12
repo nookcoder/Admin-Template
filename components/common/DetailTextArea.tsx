@@ -5,6 +5,7 @@ import { setStoryContent } from "../../redux/feature/detail/donationSlice";
 import styles from "../styles/DetailText.module.scss";
 import { TextField } from "@mui/material";
 import { setEventContent } from "../../redux/feature/event/eventSlice";
+import { setNoticeContent } from "../../redux/feature/notice/noticeSlice";
 
 const DetailTextArea: React.FunctionComponent<IDetailTextArea> = ({
   defaultValue,
@@ -22,6 +23,10 @@ const DetailTextArea: React.FunctionComponent<IDetailTextArea> = ({
           break;
         case "이벤트 내용":
           dispatch(setEventContent(payload));
+          break;
+
+        case "공지 내용":
+          dispatch(setNoticeContent(payload));
           break;
       }
     },

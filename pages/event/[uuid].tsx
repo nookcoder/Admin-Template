@@ -1,10 +1,21 @@
-import React, { ChangeEvent, FormEventHandler, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { NextPage } from "next";
 import { useAppDispatch, useAppSelect } from "../../hooks/ReduxHooks";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { FILE_TYPE } from "../../util/constant";
 import styles from "../../styles/EventUpdate.module.scss";
-import { setEventImageUrl } from "../../redux/feature/event/eventSlice";
+import {
+  setEventContent,
+  setEventImageUrl,
+  setEventTitle,
+} from "../../redux/feature/event/eventSlice";
 import { IEvent } from "../../model/interface/event/IEvent";
 import DetailTextArea from "../../components/common/DetailTextArea";
 import DetailTextField from "../../components/common/DetailTextField";
@@ -12,13 +23,15 @@ import { auto } from "@popperjs/core";
 import { appAxiosPatch } from "../../lib/api/AppAxios";
 import { useRouter } from "next/router";
 import { PrintErrorMessage } from "../../util/Error";
+import { initDetailInformation } from "../../lib/api/AppFetch";
 
 const EventDetail: NextPage = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const uuid = router.query.uuid;
   const uploadFileInput = useRef<HTMLInputElement>(null);
 
-  // const [uuid, setUuid] = useState<string>(event.uuid);
+  const [isInitial, setIsInitial] = useState<boolean>(true);
   const [imageFile, setImageFile] = useState<File>();
   const [eventDetail, setEventDetail] = useState<IEvent>();
 
@@ -47,26 +60,47 @@ const EventDetail: NextPage = () => {
     const bodyDto = new FormData();
     bodyDto.set("title", title);
     bodyDto.set("content", content);
-    // bodyDto.set("eventUuid", uuid);
+
+    if (typeof uuid === "string") {
+      bodyDto.set("eventUuid", uuid);
+    }
     if (imageFile) {
       bodyDto.set("uploadImageFile", imageFile, imageFile.name);
     }
 
     appAxiosPatch("/api/v1/admin/pple/event", bodyDto, accessToken)
-      .then((res) => {
+      .then(() => {
         router.push("/event");
       })
       .catch((err) => {
         PrintErrorMessage(err.status);
       });
   };
-  //
-  // useEffect(() => {
-  //   setEventDetail(event);
-  //   dispatch(setEventTitle(event.title));
-  //   dispatch(setEventContent(event.content));
-  //   dispatch(setEventImageUrl(event.eventImageUrl));
-  // }, [event, dispatch]);
+
+  const initEventData = useCallback((): void => {
+    if (typeof uuid === "string") {
+      initDetailInformation(
+        `/api/v1/pple/event/${uuid}`,
+        accessToken,
+        setEventDetail,
+      ).catch((err) => {
+        PrintErrorMessage(err.status);
+      });
+    }
+    return;
+  }, [accessToken, uuid]);
+
+  useEffect(() => {
+    if (isInitial) {
+      initEventData();
+      setIsInitial(false);
+    }
+    if (eventDetail) {
+      dispatch(setEventTitle(eventDetail.title));
+      dispatch(setEventContent(eventDetail.content));
+      dispatch(setEventImageUrl(eventDetail.eventImageUrl));
+    }
+  }, [isInitial, initEventData, dispatch, eventDetail]);
 
   return (
     <div>
@@ -113,28 +147,10 @@ const EventDetail: NextPage = () => {
           </div>
         </form>
       ) : (
-        <></>
+        <CircularProgress></CircularProgress>
       )}
     </div>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const { uuid } = context.query;
-//   if (!uuid) {
-//     console.log("UUID 가 없습니다");
-//   }
-//   if (typeof uuid == "string") {
-//     const event = await loadEvent(uuid);
-//     return {
-//       props: { event },
-//     };
-//   }
-//   return {
-//     props: {
-//       event: null,
-//     },
-//   };
-// };
 
 export default EventDetail;

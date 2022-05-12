@@ -9,6 +9,7 @@ import {
 import { setStoryTitle } from "../../redux/feature/detail/donationSlice";
 import { IDetailTextField } from "../../model/interface/common/IDetailComponent";
 import { setEventTitle } from "../../redux/feature/event/eventSlice";
+import { setNoticeTitle } from "../../redux/feature/notice/noticeSlice";
 
 const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
   defaultValue,
@@ -25,6 +26,9 @@ const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
           break;
         case "생년월일":
           dispatch(setBirthDay(payload));
+          break;
+        case "공지 제목":
+          dispatch(setNoticeTitle(payload));
           break;
         case "사연제목":
           dispatch(setStoryTitle(payload));

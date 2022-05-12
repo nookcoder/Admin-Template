@@ -25,4 +25,4 @@ jobs:
       - name: Test build
         run: | 
           npm run build
-          pwd 
+          ls -l

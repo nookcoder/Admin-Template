@@ -24,5 +24,4 @@ jobs:
 
       - name: Test build
         run: | 
-        npm run build
-        echo which .next
+        npm run build && echo which .next

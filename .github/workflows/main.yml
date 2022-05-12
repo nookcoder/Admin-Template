@@ -23,6 +23,4 @@ jobs:
         run: npm install
 
       - name: Test build
-        run: | 
-        npm run build
-        which .next
+        run: npm run build && which .next

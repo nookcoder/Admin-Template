@@ -21,8 +21,3 @@ jobs:
 
       - name: Test Node
         run: npm install
-
-      - name: Test build
-        run: | 
-          npm run build
-          ls -l

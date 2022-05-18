@@ -76,8 +76,11 @@ export interface IDonationContent {
   content: string;
   createdAt: string;
   lastRenewedAt: string;
-  lettersCount: number;
-  likesCount: number;
+  likes: [
+    {
+      likeAccountUuid: string;
+    },
+  ];
   modifiedAt: string;
   patient: {
     bloodType: {
@@ -92,7 +95,29 @@ export interface IDonationContent {
   phoneNumber: string;
   profileImageUrl: string;
   renewCount: number;
-  replyCount: number;
+  reply: [
+    {
+      content: string;
+      createdAt: string;
+      report: boolean;
+      uuid: string;
+      writer: {
+        accountUuid: string;
+        birthDay: string;
+        bloodType: {
+          abo: string;
+          rh: string;
+        };
+        displayName: string;
+        email: string;
+        gender: string;
+        phoneNumber: string;
+        profileImageUrl: string;
+        role: string;
+        status: string;
+      };
+    },
+  ];
   status: string;
   title: string;
   uuid: string;

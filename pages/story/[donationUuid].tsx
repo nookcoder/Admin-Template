@@ -9,25 +9,41 @@ import {
   setStoryContent,
   setStoryTitle,
 } from "../../redux/feature/detail/donationSlice";
+import { fetchData } from "../../lib/api/AppFetchGet";
+import { PrintErrorMessage } from "../../util/Error";
+import { getRouterQuery } from "../../hooks/RouterHook";
+import { Button } from "@mui/material";
+import { formatCreateAt } from "../../util/Format";
+import { IReply } from "../../model/interface/common/IReply";
 
 const StoryDetail: NextPage = () => {
   const router = useRouter();
-
+  const donationUuid = getRouterQuery(router, "donationUuid");
   const title = useAppSelect((state) => state.detailDonation.title);
   const content = useAppSelect((state) => state.detailDonation.content);
   const [donation, setDonation] = useState<IDonationContent>();
-
-  const fetchDonation = useCallback(async () => {
-    const donationUuid = router.query["donationUuid"];
-    if (typeof donationUuid == "string" && donationUuid) {
-      console.log("OK");
-    }
-    return;
-  }, [router.query]);
+  const [reply, setReply] = useState<IReply[]>();
 
   useEffect(() => {
-    fetchDonation();
-  }, [fetchDonation]);
+    if (donationUuid) {
+      fetchData(`/api/v1/donation/one/${donationUuid}`, setDonation)
+        .then(() => {
+          if (donation) {
+            setReply(donation.reply);
+          }
+        })
+        .catch((error) => {
+          PrintErrorMessage(error);
+        });
+    }
+  }, [donationUuid]);
+
+  const routeToWriter = useCallback(() => {
+    if (donation) {
+      const accountUuid = donation.writer.accountUuid;
+      router.push(`/user/${accountUuid}`);
+    }
+  }, [router, donation]);
 
   return (
     <div>
@@ -45,6 +61,32 @@ const StoryDetail: NextPage = () => {
             state={content}
             slice={setStoryContent}
           />
+          <DetailTextField
+            defaultValue={donation.createdAt}
+            label={"게시글 등록 날짜"}
+            state={content}
+            slice={setStoryContent}
+            formatFunction={formatCreateAt}
+          />
+          <DetailTextField
+            defaultValue={donation.lastRenewedAt}
+            label={"게시글 갱신 날짜"}
+            state={content}
+            slice={setStoryContent}
+            formatFunction={formatCreateAt}
+          />
+
+          <Button variant={"contained"} onClick={routeToWriter}>
+            글쓴이 상세페이지로 이동하기
+          </Button>
+          <Button
+            variant={"contained"}
+            onClick={() => {
+              console.log(reply);
+            }}
+          >
+            ㅋㅋㅋㅋ
+          </Button>
         </>
       ) : (
         <></>

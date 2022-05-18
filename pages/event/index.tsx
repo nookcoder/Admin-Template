@@ -14,7 +14,7 @@ import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { IEvent } from "../../model/interface/event/IEvent";
 import { Button, CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
-import { initGridProps } from "../../lib/api/AppFetch";
+import { initGridProps } from "../../lib/api/AppFetchGet";
 
 const Event: NextPage = () => {
   const router = useRouter();

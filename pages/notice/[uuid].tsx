@@ -11,7 +11,7 @@ import { appAxiosPatch } from "../../lib/api/AppAxios";
 import { PrintErrorMessage } from "../../util/Error";
 import { Button, CircularProgress } from "@mui/material";
 import DetailTextField from "../../components/common/DetailTextField";
-import { initDetailInformation } from "../../lib/api/AppFetch";
+import { initDetailInformation } from "../../lib/api/AppFetchGet";
 import {
   setNoticeContent,
   setNoticeTitle,

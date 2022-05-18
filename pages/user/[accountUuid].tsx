@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { getRouterQuery } from "../../hooks/RouterHook";
 import IUser from "../../model/interface/user/IUser";
-import { fetchData } from "../../lib/api/AppFetch";
+import { fetchData } from "../../lib/api/AppFetchGet";
 import { PrintErrorMessage } from "../../util/Error";
 import styles from "../../styles/AccountDetail.module.scss";
 import { useAppSelect } from "../../hooks/ReduxHooks";
@@ -26,12 +26,13 @@ const AccountUuid: NextPage = () => {
         router.push("/user");
         return;
       }
-
-      fetchData(`/api/v1/account/${accountUuid}`, setUserData).catch(
-        (error) => {
-          PrintErrorMessage(error);
-        },
-      );
+      if (accountUuid) {
+        fetchData(`/api/v1/account/${accountUuid}`, setUserData).catch(
+          (error) => {
+            PrintErrorMessage(error);
+          },
+        );
+      }
     }
   }, [accountUuid, userData, router]);
 
@@ -42,8 +43,8 @@ const AccountUuid: NextPage = () => {
       </Head>
       {userData ? (
         <>
+          {/*todo : 유저 감사편지, 댓글 등 추가 */}
           <h2 className={styles.title}>유저 상세 정보 조회 및 수정 / 삭제</h2>
-
           <main className={styles.box}>
             <section aria-label={"왼쪽 컬럼"} className={styles.box_column}>
               <UserDetailLeftBox userData={userData} />
@@ -54,11 +55,8 @@ const AccountUuid: NextPage = () => {
               <TermsBox userData={userData} />
             </section>
           </main>
-
           <Divider />
-
           <main></main>
-
           <button
             onClick={() => {
               console.log(displayName + " ? " + birthDay);

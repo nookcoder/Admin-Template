@@ -14,7 +14,7 @@ import { routePageByUuid } from "../../hooks/RouterHook";
 import { useRouter } from "next/router";
 import { CircularProgress } from "@mui/material";
 import { useAppSelect } from "../../hooks/ReduxHooks";
-import { initGridProps } from "../../lib/api/AppFetch";
+import { initGridProps } from "../../lib/api/AppFetchGet";
 import { PrintErrorMessage } from "../../util/Error";
 
 // @ts-ignore
@@ -61,6 +61,7 @@ const User: NextPage = () => {
           rows={dataRow}
           autoHeight={true}
           onCellClick={onCellClick}
+          pageSize={10}
         />
       ) : (
         <CircularProgress />

@@ -23,7 +23,7 @@ import { auto } from "@popperjs/core";
 import { appAxiosPatch } from "../../lib/api/AppAxios";
 import { useRouter } from "next/router";
 import { PrintErrorMessage } from "../../util/Error";
-import { initDetailInformation } from "../../lib/api/AppFetch";
+import { initDetailInformation } from "../../lib/api/AppFetchGet";
 
 const EventDetail: NextPage = () => {
   const dispatch = useAppDispatch();

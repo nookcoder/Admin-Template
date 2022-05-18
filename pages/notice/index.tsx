@@ -14,7 +14,7 @@ import {
 } from "@mui/x-data-grid";
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { routePageByUuid } from "../../hooks/RouterHook";
-import { initGridProps } from "../../lib/api/AppFetch";
+import { initGridProps } from "../../lib/api/AppFetchGet";
 
 const Notice: NextPage = () => {
   const router = useRouter();

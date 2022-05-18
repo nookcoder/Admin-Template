@@ -9,12 +9,16 @@ const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
   label,
   state, // React.memo 를 위한 parameter
   slice,
+  isDisabled,
+  formatFunction,
 }) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>(defaultValue);
   const executeDispatch = useCallback(
     (payload: string) => {
-      dispatch(slice(payload));
+      if (slice) {
+        dispatch(slice(payload));
+      }
     },
     [dispatch, slice],
   );
@@ -29,8 +33,12 @@ const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
   );
 
   useEffect(() => {
+    if (formatFunction) {
+      const formatString = formatFunction(defaultValue);
+      setValue(formatString);
+    }
     executeDispatch(defaultValue);
-  }, [defaultValue, executeDispatch]);
+  }, [formatFunction, defaultValue, executeDispatch]);
 
   return (
     <div className={styles.container}>
@@ -41,6 +49,7 @@ const DetailTextField: React.FunctionComponent<IDetailTextField> = ({
         onChange={onChange}
         value={value}
         fullWidth={true}
+        disabled={isDisabled}
       />
     </div>
   );

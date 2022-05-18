@@ -2,8 +2,18 @@
   width: 100%;
 }
 
+.title{
+  padding: 20px;
+}
+
 .box {
   padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.box_column {
+  width: 45%;
 }
 
 .component_container {

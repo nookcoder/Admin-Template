@@ -112,11 +112,13 @@ const EventDetail: NextPage = () => {
                 defaultValue={eventDetail.title}
                 label={"이벤트 제목"}
                 state={title}
+                slice={setEventTitle}
               />
               <DetailTextArea
                 defaultValue={eventDetail.content}
                 label={"이벤트 내용"}
                 state={content}
+                slice={setEventContent}
               />
 
               <img

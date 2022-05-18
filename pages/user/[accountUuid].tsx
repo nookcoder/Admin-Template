@@ -10,6 +10,10 @@ import DetailTextField from "../../components/common/DetailTextField";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import { CircularProgress } from "@mui/material";
 import Head from "next/head";
+import {
+  setBirthDay,
+  setDisplayName,
+} from "../../redux/feature/detail/userSlice";
 
 const AccountUuid: NextPage = () => {
   const router = useRouter();
@@ -46,12 +50,14 @@ const AccountUuid: NextPage = () => {
             defaultValue={userData.birthDay}
             label={"생년월일"}
             state={birthDay}
+            slice={setBirthDay}
           />
 
           <DetailTextField
             defaultValue={userData.displayName}
             label={"닉네임"}
             state={displayName}
+            slice={setDisplayName}
           />
           <button
             onClick={() => {

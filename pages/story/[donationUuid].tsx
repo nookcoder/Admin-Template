@@ -5,6 +5,10 @@ import { useAppSelect } from "../../hooks/ReduxHooks";
 import DetailTextArea from "../../components/common/DetailTextArea";
 import { useRouter } from "next/router";
 import { IDonationContent } from "../../model/interface/story/IDonation";
+import {
+  setStoryContent,
+  setStoryTitle,
+} from "../../redux/feature/detail/donationSlice";
 
 const StoryDetail: NextPage = () => {
   const router = useRouter();
@@ -33,11 +37,13 @@ const StoryDetail: NextPage = () => {
             defaultValue={donation.title}
             label={"사연제목"}
             state={title}
+            slice={setStoryTitle}
           />
           <DetailTextArea
             defaultValue={donation.content}
             label={"사연내용"}
             state={content}
+            slice={setStoryContent}
           />
         </>
       ) : (

@@ -1,50 +1,37 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { IDetailTextArea } from "../../model/interface/common/IDetailComponent";
 import { useAppDispatch } from "../../hooks/ReduxHooks";
-import { setStoryContent } from "../../redux/feature/detail/donationSlice";
 import styles from "../styles/DetailText.module.scss";
 import { TextField } from "@mui/material";
-import { setEventContent } from "../../redux/feature/event/eventSlice";
-import { setNoticeContent } from "../../redux/feature/notice/noticeSlice";
 
 const DetailTextArea: React.FunctionComponent<IDetailTextArea> = ({
   defaultValue,
   label,
   state, // React.memo 를 위한 parameter
+  slice,
 }) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<string>(defaultValue);
 
   const executeDispatch = useCallback(
-    (type: string, payload: string) => {
-      switch (type) {
-        case "사연내용":
-          dispatch(setStoryContent(payload));
-          break;
-        case "이벤트 내용":
-          dispatch(setEventContent(payload));
-          break;
-
-        case "공지 내용":
-          dispatch(setNoticeContent(payload));
-          break;
-      }
+    (payload: string) => {
+      dispatch(slice(payload));
     },
-    [dispatch],
+    [dispatch, slice],
   );
 
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const currentValue = event.currentTarget.value;
       setValue(currentValue);
-      executeDispatch(label, currentValue);
+      executeDispatch(currentValue);
     },
-    [setValue, executeDispatch, label],
+    [setValue, executeDispatch],
   );
 
   useEffect(() => {
-    executeDispatch(label, defaultValue);
-  }, [executeDispatch, label, defaultValue]);
+    executeDispatch(defaultValue);
+  }, [executeDispatch, defaultValue]);
 
   return (
     <div className={styles.container}>

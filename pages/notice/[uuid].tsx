@@ -89,12 +89,14 @@ const NoticeDetail = () => {
               defaultValue={noticeDetail.title}
               state={title}
               label={"공지 제목"}
+              slice={setNoticeTitle}
             />
 
             <DetailTextArea
               defaultValue={noticeDetail.content}
               label={"공지 내용"}
               state={content}
+              slice={setNoticeContent}
             />
           </div>
           <div>

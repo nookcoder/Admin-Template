@@ -1,52 +1,57 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelect } from "../hooks/ReduxHooks";
 import { setAccessToken } from "../redux/feature/auth/authSlice";
-import axios from "axios";
-import { PrintErrorMessage } from "../util/Error";
+import CheckingAuthTemplate from "../components/template/CheckingAuthTemplate";
+import { sendAuthCodeToSlack } from "../lib/api/AppFetchPost";
 
-// todo: 각 페이지별 권한 체크
 const Home: NextPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const accessToken = useAppSelect((state) => state.auth.accessToken);
-  const [token, setToken] = useState<string>("");
+  const url = `${process.env["NEXT_PUBLIC_KAKAO_LOGIN_URL"]}`;
+
+  const [authCode, setAuthCode] = useState<string>();
+  const [publishedAuthCode, setPublishedAuthCode] = useState<string>();
+  const [isAccess, setIsAccess] = useState<boolean>(false);
 
   const onClick = () => {
-    router.push("/login");
+    if (authCode == publishedAuthCode) {
+      alert("Correct");
+      location.href = url;
+    } else {
+      alert("No");
+    }
   };
 
-  const onClickHekari = () => {
-    axios
-      .post(
-        "http://ppledevtest-env.eba-9fa279up.ap-northeast-2.elasticbeanstalk.com/api/v1/admin/hikari/info",
-        "",
-        {
-          headers: {
-            "X-AUTH-TOKEN": `${accessToken}`,
-          },
-        },
-      )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        PrintErrorMessage(err.status);
-      });
-  };
+  const publishAuthCode = useCallback(() => {
+    sendAuthCodeToSlack(setPublishedAuthCode);
+  }, []);
+
+  const onChangeAuthCode = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setAuthCode(event.currentTarget.value);
+    },
+    [],
+  );
 
   useEffect(() => {
     const tokenFromUrl = router.query;
     if (tokenFromUrl.token && typeof tokenFromUrl.token == "string") {
-      setToken(tokenFromUrl.token);
+      setIsAccess(true);
       dispatch(setAccessToken(tokenFromUrl.token));
-      console.log("OK");
+      router.push("/");
+      return;
     }
-  }, [dispatch, router.query]);
+    if (accessToken) {
+      setIsAccess(false);
+      return;
+    }
+  }, [router, dispatch]);
 
   return (
     <div className={styles.container}>
@@ -56,13 +61,26 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Button onClick={onClick}>로그인 Test /sss</Button>
-
       {/*<Button variant={"contained"} onClick={onClickHekari}>*/}
       {/*  Hikeri*/}
       {/*</Button>*/}
-
-      <TextField label={"인증 코드 입력"} />
+      {isAccess ? (
+        <CheckingAuthTemplate>인증 성공</CheckingAuthTemplate>
+      ) : (
+        <>
+          <div className={styles.box}>
+            <TextField onChange={onChangeAuthCode} label={"인증 코드 입력"} />
+            <Button variant={"contained"} onClick={onClick}>
+              인증하기
+            </Button>
+          </div>
+          <div className={styles.box2}>
+            <Button variant={"outlined"} onClick={publishAuthCode}>
+              인증 토큰 발행
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

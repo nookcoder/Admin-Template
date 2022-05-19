@@ -21,7 +21,11 @@ const CheckingAuthTemplate = ({ children }: AppLayoutProps) => {
           alert("접근 권한이 없습니다");
           router.push("/");
         });
+      return;
     }
+
+    alert("인증과 로그인을 진행해주세요");
+    router.push("/");
   }, [accessToken, router]);
 
   return <>{children}</>;

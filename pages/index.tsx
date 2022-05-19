@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import React, { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelect } from "../hooks/ReduxHooks";
 import { setAccessToken } from "../redux/feature/auth/authSlice";
@@ -19,15 +19,6 @@ const Home: NextPage = () => {
   const onClick = () => {
     router.push("/login");
   };
-
-  useEffect(() => {
-    const tokenFromUrl = router.query;
-    if (tokenFromUrl.token && typeof tokenFromUrl.token == "string") {
-      setToken(tokenFromUrl.token);
-      dispatch(setAccessToken(tokenFromUrl.token));
-      console.log("OK");
-    }
-  }, [dispatch, router.query]);
 
   const onClickHekari = () => {
     axios
@@ -48,6 +39,15 @@ const Home: NextPage = () => {
       });
   };
 
+  useEffect(() => {
+    const tokenFromUrl = router.query;
+    if (tokenFromUrl.token && typeof tokenFromUrl.token == "string") {
+      setToken(tokenFromUrl.token);
+      dispatch(setAccessToken(tokenFromUrl.token));
+      console.log("OK");
+    }
+  }, [dispatch, router.query]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -55,11 +55,14 @@ const Home: NextPage = () => {
         <meta name="description" content="피플 Admin 웹사이트" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Button onClick={onClick}>로그인 Test /sss</Button>
 
-      <Button variant={"contained"} onClick={onClickHekari}>
-        Hikeri
-      </Button>
+      {/*<Button variant={"contained"} onClick={onClickHekari}>*/}
+      {/*  Hikeri*/}
+      {/*</Button>*/}
+
+      <TextField label={"인증 코드 입력"} />
     </div>
   );
 };

@@ -51,7 +51,7 @@ export const API = {
   POST: {
     EVENT: "/api/v1/admin/pple/event",
     NOTICE: "/api/v1/admin/notice",
-    HEKARI: "/api/admin/hikari/info",
+    HEKARI: "/api/v1/admin/hikari/info",
   },
 
   PATCH: {

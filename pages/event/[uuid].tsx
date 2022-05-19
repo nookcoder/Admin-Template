@@ -24,6 +24,7 @@ import { appAxiosPatch } from "../../lib/api/AppAxios";
 import { useRouter } from "next/router";
 import { PrintErrorMessage } from "../../util/Error";
 import { initDetailInformation } from "../../lib/api/AppFetchGet";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 const EventDetail: NextPage = () => {
   const dispatch = useAppDispatch();
@@ -103,7 +104,7 @@ const EventDetail: NextPage = () => {
   }, [isInitial, initEventData, dispatch, eventDetail]);
 
   return (
-    <div>
+    <CheckingAuthTemplate>
       {eventDetail ? (
         <form action="" onSubmit={onSubmit}>
           <main className={styles.container}>
@@ -151,7 +152,7 @@ const EventDetail: NextPage = () => {
       ) : (
         <CircularProgress></CircularProgress>
       )}
-    </div>
+    </CheckingAuthTemplate>
   );
 };
 

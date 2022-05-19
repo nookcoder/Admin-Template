@@ -17,6 +17,7 @@ import {
   setNoticeTitle,
 } from "../../redux/feature/notice/noticeSlice";
 import DetailTextArea from "../../components/common/DetailTextArea";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 type PatchBodyDto = {
   content: string;
@@ -81,7 +82,7 @@ const NoticeDetail = () => {
   }, [isInitial, noticeDetail, initNoticeDetail, dispatch]);
 
   return (
-    <div>
+    <CheckingAuthTemplate>
       {noticeDetail ? (
         <form method={"PATCH"} onSubmit={onSubmit}>
           <div>
@@ -108,7 +109,7 @@ const NoticeDetail = () => {
       ) : (
         <CircularProgress />
       )}
-    </div>
+    </CheckingAuthTemplate>
   );
 };
 

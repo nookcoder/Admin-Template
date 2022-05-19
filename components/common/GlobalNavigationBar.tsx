@@ -19,11 +19,12 @@ import { useRouter } from "next/router";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const GlobalNavigationBar: React.FunctionComponent = () => {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+
   const onClickMenuOpen = () => {
     setMenuOpen(!menuOpen);
   };
-  const router = useRouter();
   const handleMenuRouter = (target: string): MouseEventHandler<HTMLElement> => {
     return (event) => {
       event.preventDefault();

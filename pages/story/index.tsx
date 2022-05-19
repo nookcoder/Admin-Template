@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import { setGridPropsRow } from "../../hooks/GridHook";
 import { PrintErrorMessage } from "../../util/Error";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 const Story: NextPage = () => {
   const router = useRouter();
@@ -56,7 +57,7 @@ const Story: NextPage = () => {
   }, [initStories, isInitial]);
 
   return (
-    <div>
+    <CheckingAuthTemplate>
       <Head>
         <title>Pple Admin | Story</title>
         <meta name="description" content="피플 Admin 사연 정보" />
@@ -72,7 +73,7 @@ const Story: NextPage = () => {
       ) : (
         <CircularProgress />
       )}
-    </div>
+    </CheckingAuthTemplate>
   );
 };
 

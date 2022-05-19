@@ -16,6 +16,7 @@ import { CircularProgress } from "@mui/material";
 import { useAppSelect } from "../../hooks/ReduxHooks";
 import { initGridProps } from "../../lib/api/AppFetchGet";
 import { PrintErrorMessage } from "../../util/Error";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 // @ts-ignore
 const User: NextPage = () => {
@@ -49,7 +50,7 @@ const User: NextPage = () => {
 
   // 기본 회원 정보, 감사 메세지 수 , 좋/댓/공, 수혈완료, 포인트
   return (
-    <>
+    <CheckingAuthTemplate>
       <Head>
         <title>Pple Admin | User</title>
         <meta name="description" content="피플 Admin 유저정보" />
@@ -66,7 +67,7 @@ const User: NextPage = () => {
       ) : (
         <CircularProgress />
       )}
-    </>
+    </CheckingAuthTemplate>
   );
 };
 

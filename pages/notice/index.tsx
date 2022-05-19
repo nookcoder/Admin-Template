@@ -15,6 +15,7 @@ import {
 import { ClICK_TYPE, GRID_COLUMN } from "../../util/constant";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { initGridProps } from "../../lib/api/AppFetchGet";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 const Notice: NextPage = () => {
   const router = useRouter();
@@ -52,20 +53,22 @@ const Notice: NextPage = () => {
         <meta name="description" content="피플 Admin 공지사항" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h2>공지사항 페이지</h2>
-      {notices.length !== 0 ? (
-        <DataGrid
-          onCellClick={onCellClick}
-          columns={dataColumn}
-          rows={dataRow}
-          autoHeight={true}
-        />
-      ) : (
-        <CircularProgress />
-      )}
-      <Button variant={"contained"} onClick={routeCreatingNoticePage}>
-        공지 글 등록하기
-      </Button>
+      <CheckingAuthTemplate>
+        <h2>공지사항 페이지</h2>
+        {notices.length !== 0 ? (
+          <DataGrid
+            onCellClick={onCellClick}
+            columns={dataColumn}
+            rows={dataRow}
+            autoHeight={true}
+          />
+        ) : (
+          <CircularProgress />
+        )}
+        <Button variant={"contained"} onClick={routeCreatingNoticePage}>
+          공지 글 등록하기
+        </Button>
+      </CheckingAuthTemplate>
     </div>
   );
 };

@@ -12,6 +12,7 @@ import {
   setEventTitle,
 } from "../../redux/feature/event/eventSlice";
 import { PrintErrorMessage } from "../../util/Error";
+import CheckingAuthTemplate from "./CheckingAuthTemplate";
 
 type CreatingType = {
   title: string;
@@ -111,7 +112,7 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
   };
 
   return (
-    <div>
+    <CheckingAuthTemplate>
       <h1>{typeText} 등록/수정</h1>
 
       <form
@@ -169,7 +170,7 @@ const NoticeTemplate: React.FunctionComponent<CreatingType> = ({
           <button type="submit">제출하기</button>
         </div>
       </form>
-    </div>
+    </CheckingAuthTemplate>
   );
 };
 

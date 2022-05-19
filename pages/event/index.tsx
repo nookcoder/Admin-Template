@@ -15,6 +15,7 @@ import { IEvent } from "../../model/interface/event/IEvent";
 import { Button, CircularProgress } from "@mui/material";
 import { routePageByUuid } from "../../hooks/RouterHook";
 import { initGridProps } from "../../lib/api/AppFetchGet";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 const Event: NextPage = () => {
   const router = useRouter();
@@ -51,21 +52,22 @@ const Event: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>이벤트 설정 페이지</h2>
+      <CheckingAuthTemplate>
+        {events ? (
+          <DataGrid
+            columns={dataColumn}
+            rows={dataRow}
+            autoHeight={true}
+            onCellClick={onCellClick}
+          />
+        ) : (
+          <CircularProgress />
+        )}
 
-      {events ? (
-        <DataGrid
-          columns={dataColumn}
-          rows={dataRow}
-          autoHeight={true}
-          onCellClick={onCellClick}
-        />
-      ) : (
-        <CircularProgress />
-      )}
-
-      <Button variant={"contained"} onClick={routerCreatingEventPage}>
-        이벤트 등록하기
-      </Button>
+        <Button variant={"contained"} onClick={routerCreatingEventPage}>
+          이벤트 등록하기
+        </Button>
+      </CheckingAuthTemplate>
     </div>
   );
 };

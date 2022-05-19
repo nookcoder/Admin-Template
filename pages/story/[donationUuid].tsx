@@ -15,6 +15,7 @@ import { getRouterQuery } from "../../hooks/RouterHook";
 import { Button } from "@mui/material";
 import { formatCreateAt } from "../../util/Format";
 import { IReply } from "../../model/interface/common/IReply";
+import CheckingAuthTemplate from "../../components/template/CheckingAuthTemplate";
 
 const StoryDetail: NextPage = () => {
   const router = useRouter();
@@ -23,9 +24,11 @@ const StoryDetail: NextPage = () => {
   const content = useAppSelect((state) => state.detailDonation.content);
   const [donation, setDonation] = useState<IDonationContent>();
   const [reply, setReply] = useState<IReply[]>();
+  const [isInitial, setIsInitial] = useState<boolean>(true);
 
   useEffect(() => {
-    if (donationUuid) {
+    if (donationUuid && isInitial) {
+      setIsInitial(!isInitial);
       fetchData(`/api/v1/donation/one/${donationUuid}`, setDonation)
         .then(() => {
           if (donation) {
@@ -36,7 +39,7 @@ const StoryDetail: NextPage = () => {
           PrintErrorMessage(error);
         });
     }
-  }, [donationUuid]);
+  }, [donationUuid, donation, isInitial]);
 
   const routeToWriter = useCallback(() => {
     if (donation) {
@@ -46,7 +49,7 @@ const StoryDetail: NextPage = () => {
   }, [router, donation]);
 
   return (
-    <div>
+    <CheckingAuthTemplate>
       {donation ? (
         <>
           <DetailTextField
@@ -92,7 +95,7 @@ const StoryDetail: NextPage = () => {
         <></>
       )}
       <button onClick={() => console.log(title + "/" + content)}>확인</button>
-    </div>
+    </CheckingAuthTemplate>
   );
 };
 

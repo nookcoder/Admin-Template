@@ -13,7 +13,10 @@ export function checkAccessAuthorization(accessToken: string) {
 }
 
 export function sendAuthCodeToSlack(setAuthCode: React.Dispatch<string>) {
-  const authCode = window.btoa(`${process.env.NEXT_PUBLIC_SLACK_KEY_VALUE}`);
+  const keyValue =
+    `${Math.random()}${process.env.NEXT_PUBLIC_SLACK_KEY_VALUE}` +
+    Math.random();
+  const authCode = window.btoa(keyValue);
   setAuthCode(authCode);
   fetch(`${process.env.NEXT_PUBLIC_SLACK_WEB_HOOKS}`, {
     body: JSON.stringify({
@@ -22,7 +25,7 @@ export function sendAuthCodeToSlack(setAuthCode: React.Dispatch<string>) {
     method: "POST",
   })
     .then((res) => {
-      console.log(res);
+      alert("인증 토큰이 발행되었습니다. 확인해주세요");
     })
     .catch((err) => {
       console.log(err);

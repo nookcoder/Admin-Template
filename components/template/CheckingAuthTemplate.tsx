@@ -11,6 +11,7 @@ const CheckingAuthTemplate = ({ children }: AppLayoutProps) => {
   const router = useRouter();
   const accessToken = useAppSelect((state) => state.auth.accessToken);
 
+  // todo : ppleictmentoring.net 토큰 정보 확인하기
   useEffect(() => {
     if (accessToken) {
       checkAccessAuthorization(accessToken)

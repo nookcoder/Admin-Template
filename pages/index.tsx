@@ -48,7 +48,7 @@ const Home: NextPage = () => {
       return;
     }
     if (accessToken) {
-      setIsAccess(false);
+      setIsAccess(true);
       return;
     }
   }, [router, dispatch]);

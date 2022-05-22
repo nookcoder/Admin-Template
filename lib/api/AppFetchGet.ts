@@ -8,6 +8,7 @@ export async function initGridProps(
   accessToken: string,
   setData: React.Dispatch<any>,
 ) {
+  console.log(accessToken);
   const res = await fetchWithBaseURL(url, {
     header: {
       "X-AUTH-TOKEN": `${accessToken}`,

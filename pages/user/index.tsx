@@ -39,11 +39,13 @@ const User: NextPage = () => {
 
   useEffect(() => {
     if (isInitial) {
-      initGridProps("/api/v1/account/all", accessToken, setUserData).catch(
-        (err) => {
-          PrintErrorMessage(err.status);
-        },
-      );
+      initGridProps(
+        "/api/v1/admin/account/all",
+        accessToken,
+        setUserData,
+      ).catch((err) => {
+        PrintErrorMessage(err.status);
+      });
       setIsInitial(false);
     }
   }, [isInitial, accessToken]);
